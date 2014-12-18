@@ -1,0 +1,14 @@
+# This file is part of C++-Builtem <http://github.com/ufal/cpp-builtem/>.
+#
+# Copyright 2014 Institute of Formal and Applied Linguistics, Faculty of
+# Mathematics and Physics, Charles University in Prague, Czech Republic.
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+- Download Visual Studio 2013 Express
+- Install it
+- Copy
+  - Program Files/Microsoft Visual Studio 12.0/VC into ../visual-cpp-2013/vc-12.0
+  - Program Files/Microsoft SDKs/Windows/v7.1A into ../visual-cpp/winsdk-v7.1a
