@@ -222,42 +222,42 @@ else ifeq ($(PLATFORM),osx-clang)
 endif
 
 # build commands
-define builtem_link_deps =
+define builtem_link_deps
   @$(call mkdir,$(dir .objs/$(1)))
   @$(call echo,>.objs/$(1).link.d,.PHONY: $$(if $$(filter $(PLATFORM)-$(MODE)$(BITS),$$(PLATFORM)-$$(MODE)$$(BITS)),,$(1)))
 endef
 ifeq ($(PLATFORM),win-vs)
-  define compile =
+  define compile
     @$(call mkdir,$(dir $(1)))
     .objs/cl_deps $(1) $(CXX) /Fo$(1) $(C_FLAGS) /c $(2)
   endef
-  define compile_dyn =
+  define compile_dyn
     @$(call mkdir,$(dir $(1)))
     .objs/cl_deps $(1) $(CXX) /Fo$(1) $(C_FLAGS) $(DYN_C_FLAGS) /c $(2)
   endef
-  define link =
+  define link
     @$(call builtem_link_deps,$(1))
     $(CXX) /Fe$(1) $(C_FLAGS) $(2) /link /ENTRY:mainCRTStartup $(LD_FLAGS) $(3)
   endef
-  define link_dyn =
+  define link_dyn
     @$(call builtem_link_deps,$(1))
     $(CXX) /Fe$(1) $(C_FLAGS) $(DYN_C_FLAGS) $(2) /link /IMPLIB:$(call lib,$(1)) $(LD_FLAGS) $(DYN_LD_FLAGS) $(3)
   endef
   archive = lib.exe /out:$(1) $(2)
 else
-  define compile =
+  define compile
     @$(call mkdir,$(dir $(1)))
     $(CXX) -o $(1) -MMD -MP $(C_FLAGS) -c $(2)
   endef
-  define compile_dyn =
+  define compile_dyn
     @$(call mkdir,$(dir $(1)))
     $(CXX) -o $(1) -MMD -MP $(C_FLAGS) $(DYN_C_FLAGS) -c $(2)
   endef
-  define link =
+  define link
     @$(call builtem_link_deps,$(1))
     $(CXX) -o $(1) $(C_FLAGS) $(2) $(LD_FLAGS) $(3)
   endef
-  define link_dyn =
+  define link_dyn
     @$(call builtem_link_deps,$(1))
     $(CXX) -o $(1) $(C_FLAGS) $(DYN_C_FLAGS) $(2) $(LD_FLAGS) $(DYN_LD_FLAGS) $(3)
   endef
