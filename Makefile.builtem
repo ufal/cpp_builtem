@@ -315,8 +315,10 @@ endif
 ################################
 $(call obj,%): %.cpp $(compile_deps)
 	$(call compile,$@,$<)
+ifneq ($(call dynobj,%),$(call obj,%))
 $(call dynobj,%): %.cpp $(compile_deps)
 	$(call compile_dyn,$@,$<)
+endif
 
 #################################
 # DISABLE IMPLICIT SUFFIX RULES #
