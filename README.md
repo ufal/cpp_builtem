@@ -17,8 +17,6 @@ Supported platforms and compilers:
 - clang on OS X
 - tdm-gcc on Windows (either cmd.exe or sh shell)
 - Visual C++ on Windows (either cmd.exe or sh shell)
-Some other combinations probably work too (i.e., gcc on OS X or
-clang on Linux).
 
 The C++-Builtem also contains several (cross)compilers for Linux.
 For every (cross)compiler, there are instructions (or scripts) how to
