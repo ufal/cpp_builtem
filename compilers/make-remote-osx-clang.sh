@@ -15,7 +15,7 @@ shift
 
 set -e
 
-destination=remote_builds/`hostname`_`pwd | sed 's#^/##; s#/#_#g'`
+destination=remote_builds/`hostname``pwd | tr / _`
 ssh "$machine" mkdir -p remote_builds
 rsync -ac --delete . "$machine:$destination/"
 ssh "$machine" make -C "$destination" "$@"
