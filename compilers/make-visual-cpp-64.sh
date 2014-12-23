@@ -9,4 +9,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+# Compile cl_deps.exe using 32-bit compiler if needed
+[ -f .objs/cl_deps.exe ] || ${0%-64.sh}-32.sh .objs/cl_deps.exe
+
 wine cmd /c Z:/`readlink -f $0`.bat PLATFORM=win-vs BITS=64 "$@"
