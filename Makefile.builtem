@@ -289,7 +289,7 @@ ifeq ($(PLATFORM),win-vs)
   compile_deps = .objs/cl_deps.exe
 .objs/cl_deps.exe: .objs/cl_deps.cpp
 	@$(info Compiling cl_deps.exe)
-	@cl /Fe$@ /Fo$@.obj /nologo /W 2 /wd4503 /O1 /D WIN32 /D UNICODE /D _UNICODE /D _USING_V110_SDK71_ /EHsc /analyze- /MT $< /link /MANIFEST:EMBED /SUBSYSTEM:console,5.01
+	@cl /Fe$@ /Fo$@.obj /nologo /W 2 /wd4503 /O1 /D WIN32 /D UNICODE /D _UNICODE /D _USING_V110_SDK71_ /EHsc /analyze- /MT $< /link /MANIFEST:EMBED /MACHINE:$(if $(filter 32,$(BITS)),X86,X64) /SUBSYSTEM:console,$(if $(filter 32,$(BITS)),5.01,5.02)
 .objs/cl_deps.cpp:
 	@$(info Generating cl_deps.cpp)
 	@$(call mkdir,.objs)
