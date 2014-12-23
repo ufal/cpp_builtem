@@ -77,12 +77,12 @@ endif
 # COMPILATION MODE #
 ####################
 
-# detection if needed
+# set default mode if unspecified
 ifndef MODE
   MODE=normal
 endif
 
-# fail for unknown platform_shells
+# fail for unknown modes
 ifeq ($(filter normal release debug profile,$(MODE)),)
   $(error Unsupported compilation mode $(MODE), only [normal], release, debug and profile supported)
 endif
