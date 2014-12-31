@@ -59,4 +59,4 @@ cp 64.config ../linux-gcc-4.9.2-eglibc-2.11/build-64/.config
 (cd ../linux-gcc-4.9.2-eglibc-2.11/build-64 && ../crosstool-ng-1.20.0-dist/bin/ct-ng oldconfig && ../crosstool-ng-1.20.0-dist/bin/ct-ng build)
 
 # Clean up
-#rm -rf ../linux-gcc-4.9.2-eglibc-2.11/crosstool-ng-* ../linux-gcc-4.9.2-eglibc-2.11/build-*
+rm -rf ../linux-gcc-4.9.2-eglibc-2.11/crosstool-ng-* ../linux-gcc-4.9.2-eglibc-2.11/build-*
