@@ -9,4 +9,4 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-make CXX=linux-gcc/32/bin/i686-unknown-linux-gnu-g++ BITS=32 "$@"
+make CXX=`dirname "$0"`/linux-gcc/32/bin/i686-unknown-linux-gnu-g++ BITS=32 "$@"
