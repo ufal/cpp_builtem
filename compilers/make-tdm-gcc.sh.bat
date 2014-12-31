@@ -1,4 +1,4 @@
-@rem This file is part of C++-Builtem <http://github.com/ufal/cpp-builtem/>.
+@rem This file is part of C++-Builtem <http://github.com/ufal/cpp_builtem/>.
 @rem
 @rem Copyright 2014 Institute of Formal and Applied Linguistics, Faculty of
 @rem Mathematics and Physics, Charles University in Prague, Czech Republic.

@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# This file is part of C++-Builtem <http://github.com/ufal/cpp-builtem/>.
+# This file is part of C++-Builtem <http://github.com/ufal/cpp_builtem/>.
 #
 # Copyright 2014 Institute of Formal and Applied Linguistics, Faculty of
 # Mathematics and Physics, Charles University in Prague, Czech Republic.

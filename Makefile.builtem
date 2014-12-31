@@ -1,4 +1,4 @@
-# This file is part of C++-Builtem <http://github.com/ufal/cpp-builtem/>.
+# This file is part of C++-Builtem <http://github.com/ufal/cpp_builtem/>.
 #
 # Copyright 2014 Institute of Formal and Applied Linguistics, Faculty of
 # Mathematics and Physics, Charles University in Prague, Czech Republic.
@@ -334,7 +334,7 @@ endif
 ###################
 .PHONY: builtem-update-from-github
 builtem-update-from-github:
-	curl -O https://raw.githubusercontent.com/ufal/cpp-builtem/master/Makefile.builtem
+	curl -O https://raw.githubusercontent.com/ufal/cpp_builtem/master/Makefile.builtem
 
 ############
 # FINISHED #

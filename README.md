@@ -29,4 +29,4 @@ install it and also a shell script that runs make using it.
 Copyright 2014 by Institute of Formal and Applied Linguistics, Faculty of
 Mathematics and Physics, Charles University in Prague, Czech Republic.
 
-C++ Builtem repository http://github.com/ufal/cpp-builtem is hosted on GitHub.
+C++ Builtem repository http://github.com/ufal/cpp_builtem is hosted on GitHub.
