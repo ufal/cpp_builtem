@@ -159,7 +159,9 @@ all_dynlib = $(foreach file,$(1:$(call dynlib,%)=%),$(file).so $(file).dll $(fil
 
 # switches
 ifneq ($(filter %-gcc,$(PLATFORM)),)
-  CXX = g++
+  ifneq ($(filter undefined default,$(origin CXX)),)
+    CXX = g++
+  endif
   C_FLAGS += -std=c++11 -W -Wall -mtune=generic -msse -msse2 -mfpmath=sse -I. -fvisibility=hidden
   ifeq ($(PLATFORM),linux-gcc)
     DYN_C_FLAGS += -fPIC
@@ -184,7 +186,9 @@ ifneq ($(filter %-gcc,$(PLATFORM)),)
     LD_FLAGS += -s -static-libgcc -static-libstdc++
   endif
 else ifeq ($(PLATFORM),win-vs)
-  CXX = cl.exe
+  ifneq ($(filter undefined default,$(origin CXX)),)
+    CXX = cl.exe
+  endif
   C_FLAGS += /nologo /W 2 /wd4503 /D WIN32 /D UNICODE /D _UNICODE /D _USING_V110_SDK71_ /I . /EHsc /analyze-
   LD_FLAGS += /MANIFEST:EMBED /MACHINE:$(if $(filter 32,$(BITS)),X86,X64)
 
@@ -201,7 +205,9 @@ else ifeq ($(PLATFORM),win-vs)
     LD_FLAGS += /DEBUG
   endif
 else ifeq ($(PLATFORM),osx-clang)
-  CXX = clang++
+  ifneq ($(filter undefined default,$(origin CXX)),)
+    CXX = clang++
+  endif
   C_FLAGS += -std=c++11 -W -Wall -mtune=generic -msse2 -mfpmath=sse -I. -fvisibility=hidden -mmacosx-version-min=10.7 -stdlib=libc++
   DYN_LD_FLAGS += -dynamiclib
 
