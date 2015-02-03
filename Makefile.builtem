@@ -340,7 +340,7 @@ endif
 ###################
 .PHONY: builtem-update-from-github
 builtem-update-from-github:
-	curl -O https://raw.githubusercontent.com/ufal/cpp_builtem/master/Makefile.builtem
+	curl -O https://raw.githubusercontent.com/ufal/cpp_builtem/stable/Makefile.builtem
 
 ############
 # FINISHED #
