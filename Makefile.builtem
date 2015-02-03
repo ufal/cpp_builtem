@@ -285,6 +285,9 @@ endif
 # import existing dependencies
 -include $(wildcard .build/*.d)
 
+# add compile dependencies to all Makefiles used, except for the above dependencies
+compile_deps += $(filter-out .build/%.d,$(MAKEFILE_LIST))
+
 # make sure .build directory exists
 .build:
 	@$(call mkdir,.build)
