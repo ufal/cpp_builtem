@@ -129,30 +129,32 @@ endif
 #####################
 
 # executable and library namings
-obj_t = .objs/%.$(PLATFORM)-$(MODE)$(BITS)
+builtem_mangle = $(subst /,-,$(subst -,--,$(subst //,/,$(1))))
+builtem_demangle = $(subst //,-,$(subst -,/,$(1)))
+builtem_obj = .build/$(call builtem_mangle,$(1)).$(PLATFORM)-$(MODE)$(BITS)
 ifneq ($(filter linux-%,$(PLATFORM)),)
   exe = $(1)
   lib = $(1:=.a)
   dynlib = $(1:=.so)
-  obj = $(1:%=$(obj_t).o)
-  dynobj = $(1:%=$(obj_t).dyn.o)
+  obj = $(foreach obj,$(1),$(call builtem_obj,$(obj)).o)
+  dynobj = $(call obj,$(1:%=%.dyn))
 else ifeq ($(PLATFORM),win-vs)
   exe = $(1:=.exe)
   lib = $(1:=.lib)
   dynlib = $(1:=.dll)
-  obj = $(1:%=$(obj_t).obj)
-  dynobj = $(1:%=$(obj_t).dyn.obj)
+  obj = $(foreach obj,$(1),$(call builtem_obj,$(obj)).obj)
+  dynobj = $(call obj,$(1:%=%.dyn))
 else ifeq ($(PLATFORM),win-gcc)
   exe = $(1:=.exe)
   lib = $(1:=.a)
   dynlib = $(1:=.dll)
-  obj = $(1:%=$(obj_t).o)
-  dynobj = $(1:%=$(obj_t).dyn.o)
+  obj = $(foreach obj,$(1),$(call builtem_obj,$(obj)).o)
+  dynobj = $(call obj,$(1:%=%.dyn))
 else ifneq ($(filter osx-%,$(PLATFORM)),)
   exe = $(1)
   lib = $(1:=.a)
   dynlib = $(1:=.dylib)
-  obj = $(1:%=$(obj_t).o)
+  obj = $(foreach obj,$(1),$(call builtem_obj,$(obj)).o)
   dynobj = $(obj)
 endif
 all_exe = $(foreach file,$(1:$(call exe,%)=%),$(file) $(file).exe $(file).pdb $(file).ilk)
@@ -232,19 +234,10 @@ else ifeq ($(PLATFORM),osx-clang)
 endif
 
 # build commands
-define builtem_link_deps
-  @$(call mkdir,$(dir .objs/$(1)))
-  @$(call echo,>.objs/$(1).link.d,.PHONY: $$(if $$(filter $(PLATFORM)-$(MODE)$(BITS),$$(PLATFORM)-$$(MODE)$$(BITS)),,$(1)))
-endef
+builtem_link_deps = @$(call echo,>.build/$(call builtem_mangle,$(1)).link.d,.PHONY: $$(if $$(filter $(PLATFORM)-$(MODE)$(BITS),$$(PLATFORM)-$$(MODE)$$(BITS)),,$(1)))
 ifeq ($(PLATFORM),win-vs)
-  define compile
-    @$(call mkdir,$(dir $(1)))
-    .objs/cl_deps $(1) $(CXX) /Fo$(1) $(C_FLAGS) /c $(2)
-  endef
-  define compile_dyn
-    @$(call mkdir,$(dir $(1)))
-    .objs/cl_deps $(1) $(CXX) /Fo$(1) $(C_FLAGS) $(DYN_C_FLAGS) /c $(2)
-  endef
+  compile = .build/cl_deps $(1) $(CXX) /Fo$(1) $(C_FLAGS) /c $(2)
+  compile_dyn = .build/cl_deps $(1) $(CXX) /Fo$(1) $(C_FLAGS) $(DYN_C_FLAGS) /c $(2)
   define link
     @$(call builtem_link_deps,$(1))
     $(CXX) /Fe$(1) $(C_FLAGS) $(2) /link /ENTRY:mainCRTStartup $(LD_FLAGS) $(3)
@@ -258,14 +251,8 @@ ifeq ($(PLATFORM),win-vs)
     lib /out:$(1) $(2)
   endef
 else
-  define compile
-    @$(call mkdir,$(dir $(1)))
-    $(CXX) -o $(1) -MMD -MP $(C_FLAGS) -c $(2)
-  endef
-  define compile_dyn
-    @$(call mkdir,$(dir $(1)))
-    $(CXX) -o $(1) -MMD -MP $(C_FLAGS) $(DYN_C_FLAGS) -c $(2)
-  endef
+  compile = $(CXX) -o $(1) -MMD -MP $(C_FLAGS) -c $(2)
+  compile_dyn = $(CXX) -o $(1) -MMD -MP $(C_FLAGS) $(DYN_C_FLAGS) -c $(2)
   define link
     @$(call builtem_link_deps,$(1))
     $(CXX) -o $(1) $(C_FLAGS) $(2) $(LD_FLAGS) $(3)
@@ -296,17 +283,20 @@ endif
 ################
 
 # import existing dependencies
-builtem_dependencies = $(if $(1),$(wildcard $(1:=/*.d)) $(call builtem_dependencies,$(wildcard $(1:=/*))),)
--include $(call builtem_dependencies,.objs)
+-include $(wildcard .build/*.d)
+
+# make sure .build directory exists
+.build:
+	@$(call mkdir,.build)
 
 # compile and use cl_deps on win-vs
 ifeq ($(PLATFORM),win-vs)
-.objs/cl_deps.exe: .objs/cl_deps.cpp
+compile_deps += .build/cl_deps.exe
+.build/cl_deps.exe: .build/cl_deps.cpp
 	@$(info Compiling cl_deps.exe)
 	@cl /Fe$@ /Fo$@.obj /nologo /W 2 /wd4503 /O1 /D WIN32 /D UNICODE /D _UNICODE /D _USING_V110_SDK71_ /EHsc /analyze- /MT $< /link /MANIFEST:EMBED /MACHINE:$(if $(filter 32,$(BITS)),X86,X64) /SUBSYSTEM:console,$(if $(filter 32,$(BITS)),5.01,5.02)
-.objs/cl_deps.cpp:
+.build/cl_deps.cpp: | .build
 	@$(info Generating cl_deps.cpp)
-	@$(call mkdir,.objs)
 	@$(call echo,>$@,#include <ctype.h>)
 	@$(call echo,>>$@,#include <fcntl.h>)
 	@$(call echo,>>$@,#include <io.h>)
@@ -325,10 +315,11 @@ endif
 ################################
 # OBJECT FILES COMPILING RULES #
 ################################
-$(call obj,%): %.cpp $(if $(filter win-vs,$(PLATFORM)),.objs/cl_deps.exe,)
+.SECONDEXPANSION:
+$(call obj,%): $$(call builtem_demangle,$$*).cpp $$(compile_deps) | .build
 	$(call compile,$@,$<)
 ifneq ($(call dynobj,%),$(call obj,%))
-$(call dynobj,%): %.cpp $(if $(filter win-vs,$(PLATFORM)),.objs/cl_deps.exe,)
+$(call dynobj,%): $$(call builtem_demangle,$$*).cpp $$(compile_deps) | .build
 	$(call compile_dyn,$@,$<)
 endif
 
