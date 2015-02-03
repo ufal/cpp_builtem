@@ -338,8 +338,8 @@ endif
 ###################
 # BUILTEM UPDATER #
 ###################
-.PHONY: builtem-update-from-github
-builtem-update-from-github:
+.PHONY: builtem_update_from_github
+builtem_update_from_github:
 	curl -O https://raw.githubusercontent.com/ufal/cpp_builtem/stable/Makefile.builtem
 
 ############
