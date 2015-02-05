@@ -286,7 +286,7 @@ endif
 -include $(wildcard .build/*.d)
 
 # add compile dependencies to all Makefiles used, except for the above dependencies
-compile_deps += $(filter-out .build/%.d,$(MAKEFILE_LIST))
+COMPILE_DEPS += $(filter-out .build/%.d,$(MAKEFILE_LIST))
 
 # make sure .build directory exists
 .build:
@@ -294,7 +294,7 @@ compile_deps += $(filter-out .build/%.d,$(MAKEFILE_LIST))
 
 # compile and use cl_deps on win-vs
 ifeq ($(PLATFORM),win-vs)
-compile_deps += .build/cl_deps.exe
+COMPILE_DEPS += .build/cl_deps.exe
 .build/cl_deps.exe: .build/cl_deps.cpp
 	@$(info Compiling cl_deps.exe)
 	@cl /Fe$@ /Fo$@.obj /nologo /W 2 /wd4503 /O1 /D WIN32 /D UNICODE /D _UNICODE /D _USING_V110_SDK71_ /EHsc /analyze- /MT $< /link /MANIFEST:EMBED /MACHINE:$(if $(filter 32,$(BITS)),X86,X64) /SUBSYSTEM:console,$(if $(filter 32,$(BITS)),5.01,5.02)
@@ -319,10 +319,10 @@ endif
 # OBJECT FILES COMPILING RULES #
 ################################
 .SECONDEXPANSION:
-$(call obj,%): $$(call builtem_demangle,$$*).cpp $$(compile_deps) | .build
+$(call obj,%): $$(call builtem_demangle,$$*).cpp $$(COMPILE_DEPS) | .build
 	$(call compile,$@,$<)
 ifneq ($(call dynobj,%),$(call obj,%))
-$(call dynobj,%): $$(call builtem_demangle,$$*).cpp $$(compile_deps) | .build
+$(call dynobj,%): $$(call builtem_demangle,$$*).cpp $$(COMPILE_DEPS) | .build
 	$(call compile_dyn,$@,$<)
 endif
 
