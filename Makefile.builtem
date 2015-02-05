@@ -191,7 +191,7 @@ ifneq ($(filter %-gcc,$(PLATFORM)),)
   endif
 else ifeq ($(PLATFORM),win-vs)
   ifneq ($(filter undefined default,$(origin CXX)),)
-    CXX = cl.exe
+    CXX = cl
   endif
   C_FLAGS += /nologo /W 2 /wd4503 /D WIN32 /D UNICODE /D _UNICODE /D _USING_V110_SDK71_ /I . /EHsc /analyze-
   LD_FLAGS += /MANIFEST:EMBED /MACHINE:$(if $(filter 32,$(BITS)),X86,X64)
@@ -297,7 +297,7 @@ ifeq ($(PLATFORM),win-vs)
 COMPILE_DEPS += .build/cl_deps.exe
 .build/cl_deps.exe: .build/cl_deps.cpp
 	@$(info Compiling cl_deps.exe)
-	@cl /Fe$@ /Fo$@.obj /nologo /W 2 /wd4503 /O1 /D WIN32 /D UNICODE /D _UNICODE /D _USING_V110_SDK71_ /EHsc /analyze- /MT $< /link /MANIFEST:EMBED /MACHINE:$(if $(filter 32,$(BITS)),X86,X64) /SUBSYSTEM:console,$(if $(filter 32,$(BITS)),5.01,5.02)
+	@$(CXX) /Fe$@ /Fo$@.obj /nologo /W 2 /wd4503 /O1 /D WIN32 /D UNICODE /D _UNICODE /D _USING_V110_SDK71_ /EHsc /analyze- /MT $< /link /MANIFEST:EMBED /MACHINE:$(if $(filter 32,$(BITS)),X86,X64) /SUBSYSTEM:console,$(if $(filter 32,$(BITS)),5.01,5.02)
 .build/cl_deps.cpp: | .build
 	@$(info Generating cl_deps.cpp)
 	@$(call echo,>$@,#include <ctype.h>)
