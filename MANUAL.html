@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="generator" content="http://txt2tags.org">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>C++ Builtem</title>
+</head>
+<body>
+
+<div class="header" id="header">
+<h1>C++ Builtem</h1>
+<h2>Version 1.0.0-devel</h2>
+</div>
+
+<div class="toc">
+
+  <ol>
+  <li><a href="#toc1">Introduction</a>
+  </li>
+  <li><a href="#toc2">Makefile.builtem API Reference</a>
+    <ul>
+    <li><a href="#toc3">2.1. Variables Controlling the Build</a>
+    </li>
+    <li><a href="#toc4">2.2. Compilation Options</a>
+    </li>
+    <li><a href="#toc5">2.3. Platform Target Names</a>
+    </li>
+    <li><a href="#toc6">2.4. Shell Commands</a>
+    </li>
+    </ul>
+  </li>
+  </ol>
+
+</div>
+<div class="body" ID="body">
+
+<a id="toc1" name="toc1"></a>
+<h1>1. Introduction</h1>
+
+<p>
+C++ Builtem is a cross-platform Makefile-based build system for C++11
+released under <a href="http://www.mozilla.org/MPL/2.0/">MPL 2.0 license</a>.
+It is versioned using <a href="http://semver.org/">Semantic Versioning</a>.
+</p>
+<p style="margin-bottom:0">
+Features:
+</p>
+<ul style="margin-top:0">
+<li>can create binaries, static libraries and shared libraries
+</li>
+<li>various build modes that can be used at the same time
+  <ul>
+  <li>normal
+  </li>
+  <li>debug
+  </li>
+  <li>profile (only with gcc)
+  </li>
+  <li>release
+  </li>
+  </ul>
+</li>
+<li>automatic dependency generation
+</li>
+</ul>
+
+<p style="margin-bottom:0">
+Supported platforms and compilers:
+</p>
+<ul style="margin-top:0">
+<li>gcc on Linux
+</li>
+<li>clang on OS X
+</li>
+<li>tdm-gcc on Windows (either cmd.exe or sh shell)
+</li>
+<li>Visual C++ on Windows (either cmd.exe or sh shell)
+</li>
+</ul>
+
+<p style="margin-bottom:0">
+The C++-Builtem also contains several (cross)compilers for Linux.
+For every (cross)compiler, there are instructions (or scripts) how to
+install it and also a shell script that runs make using it.
+</p>
+<ul style="margin-top:0">
+<li>gcc 4.9.2 compiled against libc from Debian Lenny using crosstool-ng
+</li>
+<li>tdm-gcc 4.9.2
+</li>
+<li>Visual C++ 2013
+</li>
+<li>remote clang execution on OS X using SSH
+</li>
+</ul>
+
+<p>
+Copyright 2014 by Institute of Formal and Applied Linguistics, Faculty of
+Mathematics and Physics, Charles University in Prague, Czech Republic.
+</p>
+<p>
+C++ Builtem repository <a href="http://github.com/ufal/cpp_builtem">http://github.com/ufal/cpp_builtem</a> is hosted on GitHub.
+</p>
+
+<a id="toc2" name="toc2"></a>
+<h1>2. Makefile.builtem API Reference</h1>
+
+<p>
+To use <code>Makefile.builtem</code> include it at the beginning of a user Makefile.
+Although it defines several targets, it does not define a default goal, so the
+first target in the user Makefile is still the default goal.
+</p>
+<p>
+Using several build controlling variables, <code>Makefile.builtem</code> defines
+implicit rules for compiling object files and provides three linking
+methods (executables, dynamic libraries, library archives). The dependencies
+of object files are tracked automatically.
+</p>
+<p>
+The sources can be located in subdirectories (which has to be either fully
+specified or <code>VPATH</code> or <code>vpath</code> can be used). The object files are created
+in a <code>.build</code> directory using a name mangling scheme which encodes the
+subdirectory of the input file, compilation platform, compilation mode and code
+bitness. This allows object files for different modes (release/profile) and
+different platforms to coexist.
+</p>
+<p>
+During linking, <code>Makefile.builtem</code> makes sure a target is relinked if
+different compilation platform, mode or bitness is used. Nevertheless, for this
+to work, the link command must be defined in a regular rule or static pattern
+rule, not in an implicit rule (the <code>.PHONY</code> is used to force the linking
+which does not work with implicit rules).
+</p>
+<p>
+The <code>Makefile.builtem</code> works for either any Posix Shell or Windows CMD shell.
+To that end, several file manipulation methods are defined so that they are
+shell independent. Please use slash as a path separator, it is converted to
+backslash when needed.
+</p>
+
+<a id="toc3" name="toc3"></a>
+<h2>2.1. Variables Controlling the Build</h2>
+
+<ul>
+<li><code>PLATFORM</code>:<br>
+  The platform to use. Available platforms are:
+  <ul>
+  <li><code>linux</code>, <code>linux-gcc</code>: Linux platform using gcc compiler.
+  </li>
+  <li><code>win</code>, <code>win-gcc</code>: Windows platform using gcc compiler (TDM-GCC is
+    tested thoroughly, although MinGW-w64 works too). The shell can be either
+    Posix or CMD.
+  </li>
+  <li><code>win-vs</code>: Windows platform using Visual C++ 2013 compiler or newer.
+    The CMD shell is thoroughly tested, but Posix shell should probably work too.
+  <p></p>
+    The automatic dependency tracking uses the <code>/showIncludes</code> option and
+    uses <code>cl_deps</code> binary to parse its output to Makefile format. The
+    <code>.build/cl_deps.cpp</code> is created by the <code>Makefile.builtem</code> and compiled
+    automatically into <code>.build/cl_deps.exe</code> binary. Note that if 64-bit
+    compiler is used, the <code>cl_deps</code> is also 64-bit, which might break the
+    build if it is performed on 32-bit system. In that case, first build the
+    <code>.build/cl_deps.exe</code> using 32-bit compiler.
+  </li>
+  <li><code>osx</code>, <code>osx-clang</code>: OS X platform using clang compiler.
+  </li>
+  </ul>
+  If the platform is not specified, one of <code>linux</code>, <code>win</code> and <code>osx</code> is detected
+  automatically.
+<p></p>
+</li>
+<li><code>CXX</code>:<br>
+  The compiler to use. If not defined, it is set according to <code>PLATFORM</code> to either
+  <code>g++</code>, <code>clang++</code> or <code>cl</code>.
+<p></p>
+</li>
+<li><code>PLATFORM_SHELL</code>:<br>
+  The shell to use. Supported shells are:
+  <ul>
+  <li><code>sh</code>: Use Posix-compatible shell.
+  </li>
+  <li><code>cmd</code>: Use Windows CMD shell.
+  </li>
+  </ul>
+  If not specified, it is detected automatically.
+<p></p>
+</li>
+<li><code>MODE</code>
+</li>
+<li><code>BITS</code>
+</li>
+</ul>
+
+<a id="toc4" name="toc4"></a>
+<h2>2.2. Compilation Options</h2>
+
+<ul>
+<li><code>C_FLAGS</code>
+</li>
+<li><code>DYN_C_FLAGS</code>
+</li>
+<li><code>LD_FLAGS</code>
+</li>
+<li><code>DYN_LD_FLAGS</code>
+</li>
+</ul>
+
+<a id="toc5" name="toc5"></a>
+<h2>2.3. Platform Target Names</h2>
+
+<ul>
+<li><code>obj</code>
+</li>
+<li><code>dynobj</code>
+</li>
+<li><code>exe</code>
+</li>
+<li><code>lib</code>
+</li>
+<li><code>dynlib</code>
+</li>
+</ul>
+
+<a id="toc6" name="toc6"></a>
+<h2>2.4. Shell Commands</h2>
+
+<ul>
+<li><code>mkdir</code>
+</li>
+<li><code>touch</code>
+</li>
+<li><code>echo</code>
+</li>
+<li><code>cp</code>
+</li>
+<li><code>rm</code> - allow multiple
+</li>
+<li><code>rmdir</code> - allow multiple
+</li>
+</ul>
+
+</div>
+<!-- html code generated by txt2tags 2.6 (http://txt2tags.org) -->
+<!-- cmdline: txt2tags -t html -\-toc -\-enum-title -o manual.html -C t2t_docsys/t2t_docsys_manual.conf manual.t2t -->
+</body></html>

@@ -1,9 +1,8 @@
-C++ Builtem
-===========
+# C++ Builtem
 
-C++ Builtem is a cross-platform Makefile-based build system for C++11 released
-under MPL 2.0 license (http://www.mozilla.org/MPL/2.0/). It is versioned using
-Semantic Versioning (http://semver.org/).
+C++ Builtem is a cross-platform Makefile-based build system for C++11
+released under [MPL 2.0 license](http://www.mozilla.org/MPL/2.0/).
+It is versioned using [Semantic Versioning](http://semver.org/).
 
 Features:
 - can create binaries, static libraries and shared libraries
@@ -20,9 +19,9 @@ Supported platforms and compilers:
 - tdm-gcc on Windows (either cmd.exe or sh shell)
 - Visual C++ on Windows (either cmd.exe or sh shell)
 
-The C++-Builtem also contains several (cross)compilers for Linux. For every
-(cross)compiler, there are instructions (or scripts) how to install it and also
-a shell script that runs make using it.
+The C++-Builtem also contains several (cross)compilers for Linux.
+For every (cross)compiler, there are instructions (or scripts) how to
+install it and also a shell script that runs make using it.
 - gcc 4.9.2 compiled against libc from Debian Lenny using crosstool-ng
 - tdm-gcc 4.9.2
 - Visual C++ 2013

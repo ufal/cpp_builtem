@@ -1,0 +1,135 @@
+C++ Builtem
+Version 1.0.0-devel
+
+Introduction
+============
+
+C++ Builtem is a cross-platform Makefile-based build system for C++11 released
+under MPL 2.0 license (http://www.mozilla.org/MPL/2.0/). It is versioned using
+Semantic Versioning (http://semver.org/).
+
+Features:
+- can create binaries, static libraries and shared libraries
+- various build modes that can be used at the same time
+  - normal
+  - debug
+  - profile (only with gcc)
+  - release
+- automatic dependency generation
+
+Supported platforms and compilers:
+- gcc on Linux
+- clang on OS X
+- tdm-gcc on Windows (either cmd.exe or sh shell)
+- Visual C++ on Windows (either cmd.exe or sh shell)
+
+The C++-Builtem also contains several (cross)compilers for Linux. For every
+(cross)compiler, there are instructions (or scripts) how to install it and also
+a shell script that runs make using it.
+- gcc 4.9.2 compiled against libc from Debian Lenny using crosstool-ng
+- tdm-gcc 4.9.2
+- Visual C++ 2013
+- remote clang execution on OS X using SSH
+
+Copyright 2014 by Institute of Formal and Applied Linguistics, Faculty of
+Mathematics and Physics, Charles University in Prague, Czech Republic.
+
+C++ Builtem repository http://github.com/ufal/cpp_builtem is hosted on GitHub.
+
+
+Makefile.builtem API Reference
+==============================
+
+To use Makefile.builtem include it at the beginning of a user Makefile. Although
+it defines several targets, it does not define a default goal, so the first
+target in the user Makefile is still the default goal.
+
+Using several build controlling variables, Makefile.builtem defines implicit
+rules for compiling object files and provides three linking methods
+(executables, dynamic libraries, library archives). The dependencies of object
+files are tracked automatically.
+
+The sources can be located in subdirectories (which has to be either fully
+specified or VPATH or vpath can be used). The object files are created in a
+.build directory using a name mangling scheme which encodes the subdirectory of
+the input file, compilation platform, compilation mode and code bitness. This
+allows object files for different modes (release/profile) and different
+platforms to coexist.
+
+During linking, Makefile.builtem makes sure a target is relinked if different
+compilation platform, mode or bitness is used. Nevertheless, for this to work,
+the link command must be defined in a regular rule or static pattern rule, not
+in an implicit rule (the .PHONY is used to force the linking which does not work
+with implicit rules).
+
+The Makefile.builtem works for either any Posix Shell or Windows CMD shell. To
+that end, several file manipulation methods are defined so that they are shell
+independent. Please use slash as a path separator, it is converted to backslash
+when needed.
+
+
+Variables Controlling the Build
+-------------------------------
+
+- PLATFORM:
+  The platform to use. Available platforms are:
+  - linux, linux-gcc: Linux platform using gcc compiler.
+  - win, win-gcc: Windows platform using gcc compiler (TDM-GCC is tested
+    thoroughly, although MinGW-w64 works too). The shell can be either Posix or
+    CMD.
+  - win-vs: Windows platform using Visual C++ 2013 compiler or newer. The CMD
+    shell is thoroughly tested, but Posix shell should probably work too.
+
+    The automatic dependency tracking uses the /showIncludes option and uses
+    cl_deps binary to parse its output to Makefile format. The
+    .build/cl_deps.cpp is created by the Makefile.builtem and compiled
+    automatically into .build/cl_deps.exe binary. Note that if 64-bit compiler
+    is used, the cl_deps is also 64-bit, which might break the build if it is
+    performed on 32-bit system. In that case, first build the .build/cl_deps.exe
+    using 32-bit compiler.
+  - osx, osx-clang: OS X platform using clang compiler.
+  If the platform is not specified, one of linux, win and osx is detected
+  automatically.
+
+- CXX:
+  The compiler to use. If not defined, it is set according to PLATFORM to either
+  g++, clang++ or cl.
+
+- PLATFORM_SHELL:
+  The shell to use. Supported shells are:
+  - sh: Use Posix-compatible shell.
+  - cmd: Use Windows CMD shell.
+  If not specified, it is detected automatically.
+
+- MODE
+- BITS
+
+
+Compilation Options
+-------------------
+
+- C_FLAGS
+- DYN_C_FLAGS
+- LD_FLAGS
+- DYN_LD_FLAGS
+
+
+Platform Target Names
+---------------------
+
+- obj
+- dynobj
+- exe
+- lib
+- dynlib
+
+
+Shell Commands
+--------------
+
+- mkdir
+- touch
+- echo
+- cp
+- rm - allow multiple
+- rmdir - allow multiple
