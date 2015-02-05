@@ -70,7 +70,15 @@ backslash when needed.
   -
   If not specified, it is detected automatically.
 
-- ``MODE``
+- ``MODE``:  
+  Compilation mode to use. Available compilation modes are:
+  - ``normal``
+  - ``release``
+  - ``debug``
+  - ``profile``
+  -
+  The compilation mode defaults to ``normal`` if not specified.
+
 - ``BITS``
 -
 
