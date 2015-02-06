@@ -71,6 +71,8 @@ when needed.
 Variables Controlling the Build
 -------------------------------
 
+The main variables controlling the build (they are most commonly specified on
+the make command line) are the following:
 - PLATFORM:
   The platform to use. Available platforms are:
   - linux, linux-gcc: Linux platform using gcc compiler.
@@ -87,6 +89,8 @@ Variables Controlling the Build
     is used, the cl_deps is also 64-bit, which might break the build if it is
     performed on 32-bit system. In that case, first build the .build/cl_deps.exe
     using 32-bit compiler.
+
+    Note that for this platform bitness must be always specified
   - osx, osx-clang: OS X platform using clang compiler.
   If the platform is not specified, one of linux, win and osx is detected
   automatically.
@@ -98,30 +102,78 @@ Variables Controlling the Build
 - PLATFORM_SHELL:
   The shell to use. Supported shells are:
   - sh: Use Posix-compatible shell.
-  - cmd: Use Windows CMD shell.
+  - cmd: Use Windows CMD shell. Even with this shell use slash as path
+    separator. It is automatically converted to backslash where necessary.
   If not specified, it is detected automatically.
 
-- MODE
-- BITS
+- MODE:
+  Compilation mode to use. Available compilation modes are:
+  - normal: Normal build. Optimizations are used, assertions are evaluated, but
+    usually no debug information is produced. Shared version of C++ runtime is
+    used (except for Windows).
+  - release: Release build. Link time optimizations are used, assertions are
+    not evaluated, the targets are stripped and static version of C++ runtime is
+    used (except for OS X).
+  - debug: Debug build. Debug information is produced (with optimizations still
+    in place). In addition, libstdc++ debugging is also switched on.
+  - profile: Profile build supported only with gcc compiler. It is a normal
+    build with debug information and profiling enabled.
+  The compilation mode defaults to normal if not specified.
+
+- BITS:
+  The bitness of the build. Can be either unspecified (then the default of the
+  compiler is used) or one of:
+  - 32: Use 32-bit architecture.
+  - 64: Use 64-bit architecture.
+  - 32+64: Use both 32-bit and 64-bit architecture. Usable on OS X only.
+  Note that when using Visual C++, bitness must always be specified. That is
+  caused by the fact that when specifying link subsystem, it is either 5.01 for
+  32-bit or 5.02 for 64-bit architecture. According to documentation 5 should
+  also work (and would probably automatically append valid minor version), but
+  the linker does not accept it.
 
 
 Compilation Options
 -------------------
 
-- C_FLAGS
-- DYN_C_FLAGS
-- LD_FLAGS
-- DYN_LD_FLAGS
+The compilation option can be specified using the following variables:
+- C_FLAGS: Compiler flags used in every compilation.
+- DYN_C_FLAGS: Compiler flags appended for objects of dynamic libraries (i.e.
+  -fPIC on Linux and /LD[d] with Visual C++).
+- LD_FLAGS: Linker flags used in every linking. Note that the semantics is
+  slightly different For Visual C++ and other compilers. For Visual C++, the
+  linker flags are the last parameters of the command line after the /link
+  option (i.e. they are really passed to the linker). For other compilers, the
+  linker flags are just the last parameters of the command line (i.e. they had
+  to be prefixed with -Wl, if they are real linker flags). This is in accordance
+  with how linker flags are interpreted in the respective platforms.
+- DYN_LD_FLAGS: Linker flags appended for dynamic libraries linking (i.e.
+  -shared on Linux and -dynamiclib on OS X).
+
+They can be specified either globally or only for some targets (using
+target-specific variable assignments). Note that in Makefile.builtem these
+variables are always appended to, so the initial values from environment or make
+command line are respected.
+
+
+Linking Commands
+----------------
+
+- link
+- link_dyn
+- archive
 
 
 Platform Target Names
 ---------------------
 
-- obj
-- dynobj
-- exe
-- lib
-- dynlib
+Because object files, executables and libraries have different names on
+different platforms, you should use the following methods:
+- $(call obj,file_without_extension)
+- $(call dynobj,file_without_extension)
+- $(call exe,file_without_extension)
+- $(call lib,file_without_extension)
+- $(call dynlib,file_without_extension)
 
 
 Shell Commands

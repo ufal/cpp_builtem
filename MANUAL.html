@@ -23,9 +23,11 @@
     </li>
     <li><a href="#toc4">2.2. Compilation Options</a>
     </li>
-    <li><a href="#toc5">2.3. Platform Target Names</a>
+    <li><a href="#toc5">2.3. Linking Commands</a>
     </li>
-    <li><a href="#toc6">2.4. Shell Commands</a>
+    <li><a href="#toc6">2.4. Platform Target Names</a>
+    </li>
+    <li><a href="#toc7">2.5. Shell Commands</a>
     </li>
     </ul>
   </li>
@@ -141,7 +143,11 @@ backslash when needed.
 <a id="toc3" name="toc3"></a>
 <h2>2.1. Variables Controlling the Build</h2>
 
-<ul>
+<p style="margin-bottom:0">
+The main variables controlling the build (they are most commonly specified
+on the <code>make</code> command line) are the following:
+</p>
+<ul style="margin-top:0">
 <li><code>PLATFORM</code>:<br>
   The platform to use. Available platforms are:
   <ul>
@@ -161,6 +167,8 @@ backslash when needed.
     compiler is used, the <code>cl_deps</code> is also 64-bit, which might break the
     build if it is performed on 32-bit system. In that case, first build the
     <code>.build/cl_deps.exe</code> using 32-bit compiler.
+  <p></p>
+    Note that for this platform bitness must be always specified
   </li>
   <li><code>osx</code>, <code>osx-clang</code>: OS X platform using clang compiler.
   </li>
@@ -179,50 +187,119 @@ backslash when needed.
   <ul>
   <li><code>sh</code>: Use Posix-compatible shell.
   </li>
-  <li><code>cmd</code>: Use Windows CMD shell.
+  <li><code>cmd</code>: Use Windows CMD shell. Even with this shell use slash as path
+    separator. It is automatically converted to backslash where necessary.
   </li>
   </ul>
   If not specified, it is detected automatically.
 <p></p>
 </li>
-<li><code>MODE</code>
+<li><code>MODE</code>:<br>
+  Compilation mode to use. Available compilation modes are:
+  <ul>
+  <li><code>normal</code>: Normal build. Optimizations are used, assertions are evaluated,
+    but usually no debug information is produced. Shared version of C++ runtime
+    is used (except for Windows).
+  </li>
+  <li><code>release</code>: Release build. Link time optimizations are used, assertions
+    are not evaluated, the targets are stripped and static version of C++
+    runtime is used (except for OS X).
+  </li>
+  <li><code>debug</code>: Debug build. Debug information is produced (with optimizations
+    still in place). In addition, libstdc++ debugging is also switched on.
+  </li>
+  <li><code>profile</code>: Profile build supported only with gcc compiler. It is a normal build
+    with debug information and profiling enabled.
+  </li>
+  </ul>
+  The compilation mode defaults to <code>normal</code> if not specified.
+<p></p>
 </li>
-<li><code>BITS</code>
+<li><code>BITS</code>:<br>
+  The bitness of the build. Can be either unspecified (then the default of the
+  compiler is used) or one of:
+  <ul>
+  <li><code>32</code>: Use 32-bit architecture.
+  </li>
+  <li><code>64</code>: Use 64-bit architecture.
+  </li>
+  <li><code>32+64</code>: Use both 32-bit and 64-bit architecture. Usable on OS X only.
+  </li>
+  </ul>
+  Note that when using Visual C++, bitness must always be specified. That is caused by
+  the fact that when specifying link subsystem, it is either 5.01 for 32-bit or
+  5.02 for 64-bit architecture. According to documentation 5 should also work
+  (and would probably automatically append valid minor version), but the linker does
+  not accept it.
 </li>
 </ul>
 
 <a id="toc4" name="toc4"></a>
 <h2>2.2. Compilation Options</h2>
 
-<ul>
-<li><code>C_FLAGS</code>
+<p style="margin-bottom:0">
+The compilation option can be specified using the following variables:
+</p>
+<ul style="margin-top:0">
+<li><code>C_FLAGS</code>: Compiler flags used in every compilation.
 </li>
-<li><code>DYN_C_FLAGS</code>
+<li><code>DYN_C_FLAGS</code>: Compiler flags appended for objects of dynamic libraries (i.e.
+  <code>-fPIC</code> on Linux and <code>/LD[d]</code> with Visual C++).
 </li>
-<li><code>LD_FLAGS</code>
+<li><code>LD_FLAGS</code>: Linker flags used in every linking. Note that the semantics is
+  slightly different For Visual C++ and other compilers. For Visual C++, the
+  linker flags are the last parameters of the command line after the <code>/link</code>
+  option (i.e. they are really passed to the linker). For other compilers, the
+  linker flags are just the last parameters of the command line (i.e. they had to be prefixed
+  with <code>-Wl,</code> if they are real linker flags). This is in accordance with how
+  linker flags are interpreted in the respective platforms.
 </li>
-<li><code>DYN_LD_FLAGS</code>
+<li><code>DYN_LD_FLAGS</code>: Linker flags appended for dynamic libraries linking (i.e.
+  <code>-shared</code> on Linux and <code>-dynamiclib</code> on OS X).
 </li>
 </ul>
 
+<p>
+They can be specified either globally or only for some targets (using target-specific
+variable assignments). Note that in <code>Makefile.builtem</code> these variables are
+always appended to, so the initial values from environment or <code>make</code> command
+line are respected.
+</p>
+
 <a id="toc5" name="toc5"></a>
-<h2>2.3. Platform Target Names</h2>
+<h2>2.3. Linking Commands</h2>
 
 <ul>
-<li><code>obj</code>
+<li><code>link</code>
 </li>
-<li><code>dynobj</code>
+<li><code>link_dyn</code>
 </li>
-<li><code>exe</code>
-</li>
-<li><code>lib</code>
-</li>
-<li><code>dynlib</code>
+<li><code>archive</code>
 </li>
 </ul>
 
 <a id="toc6" name="toc6"></a>
-<h2>2.4. Shell Commands</h2>
+<h2>2.4. Platform Target Names</h2>
+
+<p style="margin-bottom:0">
+Because object files, executables and libraries have different names on different
+platforms, you should use the following methods:
+</p>
+<ul style="margin-top:0">
+<li><code>$(call obj,file_without_extension)</code>
+</li>
+<li><code>$(call dynobj,file_without_extension)</code>
+</li>
+<li><code>$(call exe,file_without_extension)</code>
+</li>
+<li><code>$(call lib,file_without_extension)</code>
+</li>
+<li><code>$(call dynlib,file_without_extension)</code>
+</li>
+</ul>
+
+<a id="toc7" name="toc7"></a>
+<h2>2.5. Shell Commands</h2>
 
 <ul>
 <li><code>mkdir</code>
