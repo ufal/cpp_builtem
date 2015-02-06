@@ -114,7 +114,7 @@ first target in the user Makefile is still the default goal.
 </p>
 <p>
 Using several build controlling variables, <code>Makefile.builtem</code> defines
-implicit rules for compiling object files and provides three linking
+implicit rules for compiling C++11 object files and provides three linking
 methods (executables, dynamic libraries, library archives). The dependencies
 of object files are tracked automatically.
 </p>
@@ -178,8 +178,8 @@ on the <code>make</code> command line) are the following:
 <p></p>
 </li>
 <li><code>CXX</code>:<br>
-  The compiler to use. If not defined, it is set according to <code>PLATFORM</code> to either
-  <code>g++</code>, <code>clang++</code> or <code>cl</code>.
+  The C++11 compiler to use. If not defined, it is set according to
+  <code>PLATFORM</code> to either <code>g++</code>, <code>clang++</code> or <code>cl</code>.
 <p></p>
 </li>
 <li><code>PLATFORM_SHELL</code>:<br>
@@ -269,12 +269,40 @@ line are respected.
 <a id="toc5" name="toc5"></a>
 <h2>2.3. Linking Commands</h2>
 
-<ul>
-<li><code>link</code>
+<p style="margin-bottom:0">
+The following linking commands are provided:
+</p>
+<ul style="margin-top:0">
+<li><code>$(call link,output_file,input_object_files_and_compiler_flags[,linker_flags])</code>:<br>
+  Link the given object files into an executable of specified name. The third argument
+  with linker flags is optional.
+  The link command records the current platform,mode and bitness and makes sure the target
+  is relinked if any of those is changes. That is achieved using <code>.PHONY</code> on the target,
+  so the target cannot be defined using an implicit rule (use either regular
+  rule or static pattern rule).
 </li>
-<li><code>link_dyn</code>
+<li><code>$(call link_dyn,output_file,input_object_files_and_compiler_flags[,linker_flags])</code>:<br>
+  As <code>link</code> command, but creates a dynamic library instead of an executable.
 </li>
-<li><code>archive</code>
+<li><code>$(call archive,output_file,input_object_files)</code>:<br>
+  Create a library archive from specified input object files. No compilation or linker flags
+  can be specified. Note that the library is first removed if it already exists.
+</li>
+</ul>
+
+<p style="margin-bottom:0">
+Several platform-specific flags can be used as linker flags of the <code>link</code> or
+<code>link_dyn</code> commands:
+</p>
+<ul style="margin-top:0">
+<li><code>$(call gcc_version_script,version_script)</code>: Use given version script.
+</li>
+<li><code>$(call win_subsystem,subsystem)</code>: Use specified Windows subsystem (usually
+  either <code>console</code> or <code>windows</code>) with major required subsystem version 5.
+  Note that the main entry point is always <code>main</code> even if <code>windows</code>
+  subsystem is used. Also note that if this flag is not present for ``Visual
+  C++`` compiler, the major subsystem version is 6 (i.e. the resulting binary
+  does not work on Windows XP).
 </li>
 </ul>
 
@@ -286,33 +314,40 @@ Because object files, executables and libraries have different names on differen
 platforms, you should use the following methods:
 </p>
 <ul style="margin-top:0">
-<li><code>$(call obj,file_without_extension)</code>
+<li><code>$(call obj,source_file_without_extension)</code>: Create name of object file for specified C++ 11 source
+  suitable for linking an executable. A mangling scheme is used, so that the object file is always in <code>.build</code> directory and the following
+  information is encoded in the object name: input subdirectory, platform, compile mode and bitness.
 </li>
-<li><code>$(call dynobj,file_without_extension)</code>
+<li><code>$(call dynobj,source_file_without_extension)</code>: Create name of object file for specified C++ 11 source
+  suitable for linking a dynamic library. As with <code>obj</code>, the mangling scheme is also used.
 </li>
-<li><code>$(call exe,file_without_extension)</code>
+<li><code>$(call exe,executable_without_extension)</code>: Create executable name of the given extensionless name.
 </li>
-<li><code>$(call lib,file_without_extension)</code>
+<li><code>$(call ar,archive_without_extension)</code>: Create library archive name of the given extensionless name.
 </li>
-<li><code>$(call dynlib,file_without_extension)</code>
+<li><code>$(call dynlib,dynamic_library_without_extension)</code>: Create dynamic library name of the given extensionless name.
+  Note that the <code>lib</code> prefix is not added automatically.
 </li>
 </ul>
 
 <a id="toc7" name="toc7"></a>
 <h2>2.5. Shell Commands</h2>
 
-<ul>
-<li><code>mkdir</code>
+<p style="margin-bottom:0">
+Because different shells are supported, some basic file manipulation commands are supported:
+</p>
+<ul style="margin-top:0">
+<li><code>$(call mkdir,directory)</code>: Returns command which creates given directory if it does not already exist.
 </li>
-<li><code>touch</code>
+<li><code>$(call touch,file)</code>: 
 </li>
-<li><code>echo</code>
+<li><code>$(call echo,&gt;[&gt;]file,data)</code>:
 </li>
-<li><code>cp</code>
+<li><code>$(call cp,source_file,target_file)</code>:
 </li>
-<li><code>rm</code> - allow multiple
+<li><code>$(call rm,file [file ...])</code>:
 </li>
-<li><code>rmdir</code> - allow multiple
+<li><code>$(call rmdir,directory [directory ...])</code>:
 </li>
 </ul>
 
