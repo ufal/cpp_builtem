@@ -173,9 +173,8 @@ platforms, you should use the following methods:
 == Shell Commands ==
 
 Because different shells are supported, some basic file manipulation commands are supported:
-- ``$(call mkdir,directory)``: Returns command which creates given directory if it does not already exist.
-- ``$(call touch,file)``: 
-- ``$(call echo,>[>]file,data)``:
-- ``$(call cp,source_file,target_file)``:
-- ``$(call rm,file [file ...])``:
-- ``$(call rmdir,directory [directory ...])``:
+- ``$(call mkdir,directory)``: Return command which creates given directory if it does not already exist.
+- ``$(call echo,>[>]file[,data])``: Return command which echoes given data to the specified file. If ``>file`` is used, the file is overwritten, if ``>>file`` is used, it is appended to. Newline is added after data unless it is empty (so that ``$(call echo,>file)`` can be used to create an empty file).
+- ``$(call cp,source_file,target_file)``: Return command which copies the given source file to the target file.
+- ``$(call mv,source_file,target_file)``: Return command which moves the given source file to the target file.
+- ``$(call rm,wildcard [wildcard ...])``: Return command that recursively removes files and directories that match given wildcards.

@@ -59,20 +59,17 @@ endif
 
 # shell settings
 ifeq ($(PLATFORM_SHELL),sh)
-  mkdir = mkdir -p $(1);
-  touch = touch $(1);
-  # The weird syntax is used instead of '\'', which baffles VIM syntax highlighter.
-  echo = echo '$(subst ','$(strip \ )'',$(2))'$(1);
-  cp = cp $(1) $(2);
-  rm = rm -f $(1);
-  rmdir = rm -rf $(1);
+  mkdir = mkdir -p $(1)
+  echo = $(if $(2),echo '$(subst ','$(strip \ )'',$(2))',)$(1) # The weird syntax is used instead of '\'', which baffles VIM syntax highlighter.
+  cp = cp $(1) $(2)
+  mv = mv $(1) $(2)
+  rm = rm -rf $(1)
 else ifeq ($(PLATFORM_SHELL),cmd)
-  mkdir = if not exist $(subst /,\,$(1)) md $(subst /,\,$(1))&
-  touch = copy /y nul $(subst /,\,$(1))&
-  echo = echo $(subst <,^<,$(subst >,^>,$(subst &,^&,$(subst |,^|,$(subst %,%%,$(subst ^,^^,$(2)))))))$(subst /,\,$(1))&
-  cp = copy /y $(subst /,\,$(1)) $(subst /,\,$(2))&
-  rm = for %%f in ($(subst /,\,$(1))) do if exist %%f del /q %%f&
-  rmdir = for %%d in ($(subst /,\,$(1))) do if exist %%d rd /s /q %%d&
+  mkdir = if not exist $(subst /,\,$(1)) md $(subst /,\,$(1))
+  echo = $(if $(2),echo $(subst <,^<,$(subst >,^>,$(subst &,^&,$(subst |,^|,$(subst %,%%,$(subst ^,^^,$(2))))))),type nul)$(subst /,\,$(1))
+  cp = copy /y $(subst /,\,$(1)) $(subst /,\,$(2))
+  mv = move /y $(subst /,\,$(1)) $(subst /,\,$(2))
+  rm = $(foreach f,$(subst /,\,$(wildcard $(1))),if exist $(f) del /q $(f)& if exist $(f) rd /s /q $(f)& )
 endif
 
 ####################
