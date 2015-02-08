@@ -167,7 +167,18 @@ platforms, you should use the following methods:
 - ``$(call exe,executable_without_extension)``: Create executable name of the given extensionless name.
 - ``$(call lib,library_archive_without_extension)``: Create library archive name of the given extensionless name.
 - ``$(call dynlib,dynamic_library_without_extension)``: Create dynamic library name of the given extensionless name.
-  Note that the ``lib`` prefix is not added automatically.
+
+
+Because the executables and static and dynamic libraries have different names
+on different platforms, the following methods are provided so that all possible
+executables and libraries can be cleaned easily:
+- ``$(call all_exe,executable_without_extension)``: Return all possible executables names
+  for the given name, including debugging symbol files (i.e. ``pdb``).
+- ``$(call all_lib,library_archive_without_extension)``: Return all possible library archive names
+  for the given name.
+- ``$(call all_dynlib,dynamic_library_without_extension)``: Return all possible dynamic library names
+  for the given name, including import libraries, export files and debugging symbol files.
+
 
 
 == Shell Commands ==
