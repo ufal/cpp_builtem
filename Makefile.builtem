@@ -235,30 +235,30 @@ builtem_link_deps = @$(call echo,>.build/$(call builtem_mangle,$(1)).link.d,.PHO
 ifeq ($(PLATFORM),win-vs)
   compile = .build/cl_deps $(1) $(CXX) /Fo$(1) $(C_FLAGS) /c $(2)
   compile_dyn = .build/cl_deps $(1) $(CXX) /Fo$(1) $(C_FLAGS) $(DYN_C_FLAGS) /c $(2)
-  define link
+  define link_exe
     @$(call builtem_link_deps,$(1))
     $(CXX) /Fe$(1) $(C_FLAGS) $(2) /link /ENTRY:mainCRTStartup $(LD_FLAGS) $(3)
   endef
-  define link_dyn
+  define link_dynlib
     @$(call builtem_link_deps,$(1))
     $(CXX) /Fe$(1) $(C_FLAGS) $(DYN_C_FLAGS) $(2) /link /IMPLIB:$(call lib,$(1)) $(LD_FLAGS) $(DYN_LD_FLAGS) $(3)
   endef
-  define archive
+  define link_lib
     @$(call builtem_link_deps,$(1))
     lib /out:$(1) $(2)
   endef
 else
   compile = $(CXX) -o $(1) -MMD -MP $(C_FLAGS) -c $(2)
   compile_dyn = $(CXX) -o $(1) -MMD -MP $(C_FLAGS) $(DYN_C_FLAGS) -c $(2)
-  define link
+  define link_exe
     @$(call builtem_link_deps,$(1))
     $(CXX) -o $(1) $(C_FLAGS) $(2) $(LD_FLAGS) $(3)
   endef
-  define link_dyn
+  define link_dynlib
     @$(call builtem_link_deps,$(1))
     $(CXX) -o $(1) $(C_FLAGS) $(DYN_C_FLAGS) $(2) $(LD_FLAGS) $(DYN_LD_FLAGS) $(3)
   endef
-  define archive
+  define link_lib
     @$(call builtem_link_deps,$(1))
     @$(call rm,$(1))
     ar -rcs $(1) $(2)
