@@ -273,7 +273,7 @@ line are respected.
 The following linking commands are provided:
 </p>
 <ul style="margin-top:0">
-<li><code>$(call link,output_file,input_object_files_and_compiler_flags[,linker_flags])</code>:<br>
+<li><code>$(call link_exe,output_file,input_object_files_and_compiler_flags[,linker_flags])</code>:<br>
   Link the given object files into an executable of specified name. The third argument
   with linker flags is optional.
   The link command records the current platform,mode and bitness and makes sure the target
@@ -281,18 +281,18 @@ The following linking commands are provided:
   so the target cannot be defined using an implicit rule (use either regular
   rule or static pattern rule).
 </li>
-<li><code>$(call link_dyn,output_file,input_object_files_and_compiler_flags[,linker_flags])</code>:<br>
+<li><code>$(call link_dynlib,output_file,input_object_files_and_compiler_flags[,linker_flags])</code>:<br>
   As <code>link</code> command, but creates a dynamic library instead of an executable.
 </li>
-<li><code>$(call archive,output_file,input_object_files)</code>:<br>
+<li><code>$(call link_lib,output_file,input_object_files)</code>:<br>
   Create a library archive from specified input object files. No compilation or linker flags
-  can be specified. Note that the library is first removed if it already exists.
+  can be specified. Note that the library is truncated first if it already exists.
 </li>
 </ul>
 
 <p style="margin-bottom:0">
-Several platform-specific flags can be used as linker flags of the <code>link</code> or
-<code>link_dyn</code> commands:
+Several platform-specific flags can be used as linker flags of the <code>link_exe</code> or
+<code>link_dynlib</code> commands:
 </p>
 <ul style="margin-top:0">
 <li><code>$(call gcc_version_script,version_script)</code>: Use given version script.
@@ -323,10 +323,26 @@ platforms, you should use the following methods:
 </li>
 <li><code>$(call exe,executable_without_extension)</code>: Create executable name of the given extensionless name.
 </li>
-<li><code>$(call ar,archive_without_extension)</code>: Create library archive name of the given extensionless name.
+<li><code>$(call lib,library_archive_without_extension)</code>: Create library archive name of the given extensionless name.
 </li>
 <li><code>$(call dynlib,dynamic_library_without_extension)</code>: Create dynamic library name of the given extensionless name.
-  Note that the <code>lib</code> prefix is not added automatically.
+</li>
+</ul>
+
+<p style="margin-bottom:0">
+Because the executables and static and dynamic libraries have different names
+on different platforms, the following methods are provided so that all possible
+executables and libraries can be cleaned easily:
+</p>
+<ul style="margin-top:0">
+<li><code>$(call all_exe,executable_without_extension)</code>: Return all possible executables names
+  for the given name, including debugging symbol files (i.e. <code>pdb</code>).
+</li>
+<li><code>$(call all_lib,library_archive_without_extension)</code>: Return all possible library archive names
+  for the given name.
+</li>
+<li><code>$(call all_dynlib,dynamic_library_without_extension)</code>: Return all possible dynamic library names
+  for the given name, including import libraries, export files and debugging symbol files.
 </li>
 </ul>
 
@@ -337,17 +353,15 @@ platforms, you should use the following methods:
 Because different shells are supported, some basic file manipulation commands are supported:
 </p>
 <ul style="margin-top:0">
-<li><code>$(call mkdir,directory)</code>: Returns command which creates given directory if it does not already exist.
+<li><code>$(call mkdir,directory)</code>: Return command which creates given directory if it does not already exist.
 </li>
-<li><code>$(call touch,file)</code>: 
+<li><code>$(call echo,&gt;[&gt;]file[,data])</code>: Return command which echoes given data to the specified file. If <code>&gt;file</code> is used, the file is overwritten, if <code>&gt;&gt;file</code> is used, it is appended to. Newline is added after data unless it is empty (so that <code>$(call echo,&gt;file)</code> can be used to create an empty file).
 </li>
-<li><code>$(call echo,&gt;[&gt;]file,data)</code>:
+<li><code>$(call cp,source_file,target_file)</code>: Return command which copies the given source file to the target file.
 </li>
-<li><code>$(call cp,source_file,target_file)</code>:
+<li><code>$(call mv,source_file,target_file)</code>: Return command which moves the given source file to the target file.
 </li>
-<li><code>$(call rm,file [file ...])</code>:
-</li>
-<li><code>$(call rmdir,directory [directory ...])</code>:
+<li><code>$(call rm,wildcard [wildcard ...])</code>: Return command that recursively removes files and directories that match given wildcards.
 </li>
 </ul>
 
