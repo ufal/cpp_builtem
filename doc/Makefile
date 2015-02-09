@@ -25,4 +25,4 @@ install: doc
 
 .PHONY: clean
 clean:
-	@rm -f $(T2T_DOCSYS_OUTPUT_WILDCARDS)
+	@$(call rm,$(T2T_DOCSYS_OUTPUT_WILDCARDS))
