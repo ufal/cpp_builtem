@@ -130,22 +130,22 @@ line are respected.
 == Linking Commands ==
 
 The following linking commands are provided:
-- ``$(call link,output_file,input_object_files_and_compiler_flags[,linker_flags])``:  
+- ``$(call link_exe,output_file,input_object_files_and_compiler_flags[,linker_flags])``:  
   Link the given object files into an executable of specified name. The third argument
   with linker flags is optional.
   The link command records the current platform,mode and bitness and makes sure the target
   is relinked if any of those is changes. That is achieved using ``.PHONY`` on the target,
   so the target cannot be defined using an implicit rule (use either regular
   rule or static pattern rule).
-- ``$(call link_dyn,output_file,input_object_files_and_compiler_flags[,linker_flags])``:  
+- ``$(call link_dynlib,output_file,input_object_files_and_compiler_flags[,linker_flags])``:  
   As ``link`` command, but creates a dynamic library instead of an executable.
-- ``$(call archive,output_file,input_object_files)``:  
+- ``$(call link_lib,output_file,input_object_files)``:  
   Create a library archive from specified input object files. No compilation or linker flags
-  can be specified. Note that the library is first removed if it already exists.
+  can be specified. Note that the library is truncated first if it already exists.
 
 
-Several platform-specific flags can be used as linker flags of the ``link`` or
-``link_dyn`` commands:
+Several platform-specific flags can be used as linker flags of the ``link_exe`` or
+``link_dynlib`` commands:
 - ``$(call gcc_version_script,version_script)``: Use given version script.
 - ``$(call win_subsystem,subsystem)``: Use specified Windows subsystem (usually
   either ``console`` or ``windows``) with major required subsystem version 5.
@@ -165,17 +165,27 @@ platforms, you should use the following methods:
 - ``$(call dynobj,source_file_without_extension)``: Create name of object file for specified C++ 11 source
   suitable for linking a dynamic library. As with ``obj``, the mangling scheme is also used.
 - ``$(call exe,executable_without_extension)``: Create executable name of the given extensionless name.
-- ``$(call ar,archive_without_extension)``: Create library archive name of the given extensionless name.
+- ``$(call lib,library_archive_without_extension)``: Create library archive name of the given extensionless name.
 - ``$(call dynlib,dynamic_library_without_extension)``: Create dynamic library name of the given extensionless name.
-  Note that the ``lib`` prefix is not added automatically.
+
+
+Because the executables and static and dynamic libraries have different names
+on different platforms, the following methods are provided so that all possible
+executables and libraries can be cleaned easily:
+- ``$(call all_exe,executable_without_extension)``: Return all possible executables names
+  for the given name, including debugging symbol files (i.e. ``pdb``).
+- ``$(call all_lib,library_archive_without_extension)``: Return all possible library archive names
+  for the given name.
+- ``$(call all_dynlib,dynamic_library_without_extension)``: Return all possible dynamic library names
+  for the given name, including import libraries, export files and debugging symbol files.
+
 
 
 == Shell Commands ==
 
 Because different shells are supported, some basic file manipulation commands are supported:
-- ``$(call mkdir,directory)``: Returns command which creates given directory if it does not already exist.
-- ``$(call touch,file)``: 
-- ``$(call echo,>[>]file,data)``:
-- ``$(call cp,source_file,target_file)``:
-- ``$(call rm,file [file ...])``:
-- ``$(call rmdir,directory [directory ...])``:
+- ``$(call mkdir,directory)``: Return command which creates given directory if it does not already exist.
+- ``$(call echo,>[>]file[,data])``: Return command which echoes given data to the specified file. If ``>file`` is used, the file is overwritten, if ``>>file`` is used, it is appended to. Newline is added after data unless it is empty (so that ``$(call echo,>file)`` can be used to create an empty file).
+- ``$(call cp,source_file,target_file)``: Return command which copies the given source file to the target file.
+- ``$(call mv,source_file,target_file)``: Return command which moves the given source file to the target file.
+- ``$(call rm,wildcard [wildcard ...])``: Return command that recursively removes files and directories that match given wildcards.
