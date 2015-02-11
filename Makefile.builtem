@@ -265,6 +265,15 @@ else
   endef
 endif
 
+# flag methods
+ifeq ($(PLATFORM),win-vs)
+  include_dir = /I $(1)
+  use_library = $(1).lib
+else
+  include_dir = -I$(1)
+  use_library = -l$(1)
+endif
+
 ifneq ($(filter %-gcc,$(PLATFORM)),)
   gcc_version_script = -Wl,--version-script=$(1)
 endif
