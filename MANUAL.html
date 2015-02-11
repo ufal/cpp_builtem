@@ -263,11 +263,11 @@ The compilation option can be specified using the following variables:
 Because compilers have different option syntax, the following methods are also provided:
 </p>
 <ul style="margin-top:0">
-<li><code>$(call include_dir,directory)</code>: Return compiler option adding the given
-  directory to include search path.
+<li><code>$(call include_dir,directory [directory ...])</code>: Return compiler option
+  adding the given directories to include search path.
 </li>
-<li><code>$(call use_library,library)</code>: Return linker option adding the given
-  library to the set of libraries linked againts.
+<li><code>$(call use_library,library [library ...])</code>: Return linker option adding
+  the given libraries to the set of libraries linked againts.
 </li>
 </ul>
 

@@ -267,11 +267,11 @@ endif
 
 # flag methods
 ifeq ($(PLATFORM),win-vs)
-  include_dir = /I $(1)
-  use_library = $(1).lib
+  include_dir = $(1:%=/I %)
+  use_library = $(1:%=%.lib)
 else
-  include_dir = -I$(1)
-  use_library = -l$(1)
+  include_dir = $(1:%=-I%)
+  use_library = $(1:%=-l%)
 endif
 
 ifneq ($(filter %-gcc,$(PLATFORM)),)
