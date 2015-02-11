@@ -167,8 +167,12 @@ Several platform-specific flags can be used as linker flags of the ``link_exe`` 
 Because object files, executables and libraries have different names on different
 platforms, you should use the following methods:
 - ``$(call obj,source_file_without_extension)``: Create name of object file for specified C++ 11 source
-  suitable for linking an executable. A mangling scheme is used, so that the object file is always in ``.build`` directory and the following
-  information is encoded in the object name: input subdirectory, platform, compile mode and bitness.
+  suitable for linking an executable. A mangling scheme is used, so that the
+  object file is always in ``.build`` directory and the following information
+  is encoded in the object name: input subdirectory, platform, compile mode and
+  bitness. Note that this means that if you use ``$(call obj,%)`` as a dependency,
+  you must use second expansion (i.e. ``$$(call obj,%)``) so that the ``%`` is
+  replaced by the real path before calling ``obj``.
 - ``$(call dynobj,source_file_without_extension)``: Create name of object file for specified C++ 11 source
   suitable for linking a dynamic library. As with ``obj``, the mangling scheme is also used.
 - ``$(call exe,executable_without_extension)``: Create executable name of the given extensionless name.
