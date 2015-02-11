@@ -83,8 +83,8 @@ on the ``make`` command line) are the following:
   - ``release``: Release build. Link time optimizations are used, assertions
     are not evaluated, the targets are stripped and static version of C++
     runtime is used (except for OS X).
-  - ``debug``: Debug build. Debug information is produced (with optimizations
-    still in place). In addition, libstdc++ debugging is also switched on.
+  - ``debug``: Debug build. Debug information is produced and no optimizations
+    are performed. In addition, libstdc++ debugging is enabled on gcc.
   - ``profile``: Profile build supported only with gcc compiler. It is a normal build
     with debug information and profiling enabled.
   -

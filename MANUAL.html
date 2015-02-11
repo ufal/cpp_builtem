@@ -205,8 +205,8 @@ on the <code>make</code> command line) are the following:
     are not evaluated, the targets are stripped and static version of C++
     runtime is used (except for OS X).
   </li>
-  <li><code>debug</code>: Debug build. Debug information is produced (with optimizations
-    still in place). In addition, libstdc++ debugging is also switched on.
+  <li><code>debug</code>: Debug build. Debug information is produced and no optimizations
+    are performed. In addition, libstdc++ debugging is enabled on gcc.
   </li>
   <li><code>profile</code>: Profile build supported only with gcc compiler. It is a normal build
     with debug information and profiling enabled.
