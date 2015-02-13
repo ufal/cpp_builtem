@@ -310,6 +310,11 @@ Several platform-specific flags can be used as linker flags of the <code>link_ex
 <li><code>$(call version_script,version_script_file)</code>: Use given version script.
   Applies to gcc compiler only (<code>linux-gcc</code> and <code>windows-gcc</code> platforms).
 </li>
+<li><code>$(call use_linker,linker_variant)</code>: Use given linker.
+  Applies to gcc compiler only (<code>linux-gcc</code> platform and possibly also
+  <code>windows-gcc</code>) with supported linkers <code>bfd</code> (the default one) and
+  <code>gold</code>.
+</li>
 <li><code>$(call win_subsystem,subsystem)</code>: Use specified Windows subsystem (usually
   either <code>console</code> or <code>windows</code>) with major required subsystem version 5.
   Note that the main entry point is always <code>main</code> even if <code>windows</code>

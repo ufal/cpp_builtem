@@ -276,6 +276,7 @@ endif
 
 ifneq ($(filter %-gcc,$(PLATFORM)),)
   version_script = -Wl,--version-script=$(1)
+  use_linker = -fuse-ld=$(1)
 endif
 
 ifeq ($(PLATFORM),win-vs)

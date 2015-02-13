@@ -187,6 +187,9 @@ Several platform-specific flags can be used as linker flags of the link_exe or
 link_dynlib commands:
 - $(call version_script,version_script_file): Use given version script. Applies
   to gcc compiler only (linux-gcc and windows-gcc platforms).
+- $(call use_linker,linker_variant): Use given linker. Applies to gcc compiler
+  only (linux-gcc platform and possibly also windows-gcc) with supported linkers
+  bfd (the default one) and gold.
 - $(call win_subsystem,subsystem): Use specified Windows subsystem (usually
   either console or windows) with major required subsystem version 5. Note that
   the main entry point is always main even if windows subsystem is used. Also
