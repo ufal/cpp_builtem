@@ -275,7 +275,7 @@ else
 endif
 
 ifneq ($(filter %-gcc,$(PLATFORM)),)
-  gcc_version_script = -Wl,--version-script=$(1)
+  version_script = -Wl,--version-script=$(1)
 endif
 
 ifeq ($(PLATFORM),win-vs)

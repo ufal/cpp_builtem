@@ -307,7 +307,8 @@ Several platform-specific flags can be used as linker flags of the <code>link_ex
 <code>link_dynlib</code> commands:
 </p>
 <ul style="margin-top:0">
-<li><code>$(call gcc_version_script,version_script)</code>: Use given version script.
+<li><code>$(call version_script,version_script_file)</code>: Use given version script.
+  Applies to gcc compiler only (<code>linux-gcc</code> and <code>windows-gcc</code> platforms).
 </li>
 <li><code>$(call win_subsystem,subsystem)</code>: Use specified Windows subsystem (usually
   either <code>console</code> or <code>windows</code>) with major required subsystem version 5.
