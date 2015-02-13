@@ -277,10 +277,10 @@ endif
 ifneq ($(filter %-gcc,$(PLATFORM)),)
   gcc_version_script = -Wl,--version-script=$(1)
 endif
+
 ifeq ($(PLATFORM),win-vs)
   win_subsystem = /SUBSYSTEM:$(1),$(if $(filter 32,$(BITS)),5.01,5.02)
-endif
-ifeq ($(PLATFORM),win-gcc)
+else ifeq ($(PLATFORM),win-gcc)
   win_subsystem = -Wl,--subsystem=$(1)
 endif
 
