@@ -289,11 +289,12 @@ endif
 # DEPENDENCIES #
 ################
 
+# add current Makefile.builtem to compile dependencies
+BUILTEM_MAKEFILE_PATH := $(lastword $(MAKEFILE_LIST))
+COMPILE_DEPS += $(BUILTEM_MAKEFILE_PATH)
+
 # import existing dependencies
 -include $(wildcard .build/*.d)
-
-# add compile dependencies to all Makefiles used, except for the above dependencies
-COMPILE_DEPS += $(filter-out .build/%.d,$(MAKEFILE_LIST))
 
 # make sure .build directory exists
 .build:
