@@ -19,7 +19,7 @@ Features:
 
 Supported platforms and compilers:
 - gcc on Linux
-- clang on OS X
+- clang on OS X and Linux
 - tdm-gcc on Windows (either cmd.exe or sh shell)
 - Visual C++ on Windows (either cmd.exe or sh shell)
 
@@ -76,6 +76,7 @@ the make command line) are the following:
 - PLATFORM:
   The platform to use. Available platforms are:
   - linux, linux-gcc: Linux platform using gcc compiler.
+  - linux-clang: Linux platform using clang compiler.
   - win, win-gcc: Windows platform using gcc compiler (TDM-GCC is tested
     thoroughly, although MinGW-w64 works too). The shell can be either Posix or
     CMD.
@@ -116,8 +117,9 @@ the make command line) are the following:
     used (except for OS X).
   - debug: Debug build. Debug information is produced and no optimizations are
     performed. In addition, libstdc++ debugging is enabled on gcc.
-  - profile: Profile build supported only with gcc compiler. It is a normal
-    build with debug information and profiling enabled.
+  - profile: Profile build. It is a normal build with possibly limited debug
+    information. On gcc, profiling is enabled with -pg. Currently not supported
+    on Visual C++.
   The compilation mode defaults to normal if not specified.
 
 - BITS:
@@ -188,7 +190,7 @@ The following linking commands are provided:
 Several platform-specific flags can be used as linker flags of the link_exe or
 link_dynlib commands:
 - $(call version_script,version_script_file): Use given version script. Applies
-  to gcc compiler only (linux-gcc and windows-gcc platforms).
+  to linux only (linux-gcc and linux-clang platforms).
 - $(call use_linker,linker_variant): Use given linker. Applies to gcc compiler
   only (linux-gcc platform and possibly also windows-gcc) with supported linkers
   bfd (the default one) and gold.

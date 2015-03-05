@@ -72,7 +72,7 @@ Supported platforms and compilers:
 <ul style="margin-top:0">
 <li>gcc on Linux
 </li>
-<li>clang on OS X
+<li>clang on OS X and Linux
 </li>
 <li>tdm-gcc on Windows (either cmd.exe or sh shell)
 </li>
@@ -153,6 +153,8 @@ on the <code>make</code> command line) are the following:
   <ul>
   <li><code>linux</code>, <code>linux-gcc</code>: Linux platform using gcc compiler.
   </li>
+  <li><code>linux-clang</code>: Linux platform using clang compiler.
+  </li>
   <li><code>win</code>, <code>win-gcc</code>: Windows platform using gcc compiler (TDM-GCC is
     tested thoroughly, although MinGW-w64 works too). The shell can be either
     Posix or CMD.
@@ -208,8 +210,9 @@ on the <code>make</code> command line) are the following:
   <li><code>debug</code>: Debug build. Debug information is produced and no optimizations
     are performed. In addition, libstdc++ debugging is enabled on gcc.
   </li>
-  <li><code>profile</code>: Profile build supported only with gcc compiler. It is a normal build
-    with debug information and profiling enabled.
+  <li><code>profile</code>: Profile build. It is a normal build with possibly limited
+    debug information. On gcc, profiling is enabled with <code>-pg</code>. Currently not
+    supported on Visual C++.
   </li>
   </ul>
   The compilation mode defaults to <code>normal</code> if not specified.
@@ -311,7 +314,7 @@ Several platform-specific flags can be used as linker flags of the <code>link_ex
 </p>
 <ul style="margin-top:0">
 <li><code>$(call version_script,version_script_file)</code>: Use given version script.
-  Applies to gcc compiler only (<code>linux-gcc</code> and <code>windows-gcc</code> platforms).
+  Applies to linux only (<code>linux-gcc</code> and <code>linux-clang</code> platforms).
 </li>
 <li><code>$(call use_linker,linker_variant)</code>: Use given linker.
   Applies to gcc compiler only (<code>linux-gcc</code> platform and possibly also

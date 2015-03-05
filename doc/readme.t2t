@@ -17,7 +17,7 @@ Features:
 
 Supported platforms and compilers:
 - gcc on Linux
-- clang on OS X
+- clang on OS X and Linux
 - tdm-gcc on Windows (either cmd.exe or sh shell)
 - Visual C++ on Windows (either cmd.exe or sh shell)
 
