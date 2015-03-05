@@ -209,7 +209,7 @@ else ifeq ($(PLATFORM),osx-clang)
   ifneq ($(filter undefined default,$(origin CXX)),)
     CXX = clang++
   endif
-  C_FLAGS += -std=c++11 -W -Wall -mtune=generic -msse2 -mfpmath=sse -I. -fvisibility=hidden -mmacosx-version-min=10.7 -stdlib=libc++
+  C_FLAGS += -std=c++11 -W -Wall -mtune=generic -I. -fvisibility=hidden -mmacosx-version-min=10.7 -stdlib=libc++
   DYN_LD_FLAGS += -dynamiclib
 
   ifeq ($(BITS),32)
