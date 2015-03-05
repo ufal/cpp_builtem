@@ -221,7 +221,7 @@ else ifeq ($(PLATFORM),osx-clang)
   ifeq ($(MODE),normal)
     C_FLAGS += -O3
   else ifeq ($(MODE),debug)
-    C_FLAGS += -O3 -g -DDEBUG
+    C_FLAGS += -g -DDEBUG
   else ifeq ($(MODE),profile)
     C_FLAGS += -O3 -gline-tables-only
   else ifeq ($(MODE),release)
