@@ -189,6 +189,8 @@ The following linking commands are provided:
 
 Several platform-specific flags can be used as linker flags of the link_exe or
 link_dynlib commands:
+- $(call use_threads): Allow using C++11 threading support. Currently needed on
+  linux platform only.
 - $(call version_script,version_script_file): Use given version script. Applies
   to linux only (linux-gcc and linux-clang platforms).
 - $(call use_linker,linker_variant): Use given linker. Applies to gcc compiler

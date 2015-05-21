@@ -313,6 +313,9 @@ Several platform-specific flags can be used as linker flags of the <code>link_ex
 <code>link_dynlib</code> commands:
 </p>
 <ul style="margin-top:0">
+<li><code>$(call use_threads)</code>: Allow using C++11 threading support. Currently
+  needed on <code>linux</code> platform only.
+</li>
 <li><code>$(call version_script,version_script_file)</code>: Use given version script.
   Applies to linux only (<code>linux-gcc</code> and <code>linux-clang</code> platforms).
 </li>
