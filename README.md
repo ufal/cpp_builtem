@@ -9,7 +9,7 @@ Features:
 - various build modes that can be used at the same time
   - normal
   - debug
-  - profile (only with gcc)
+  - profile (not on Visual C++)
   - release
 - automatic dependency generation
 
