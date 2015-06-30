@@ -269,10 +269,12 @@ endif
 ifeq ($(PLATFORM),win-vs)
   include_dir = $(1:%=/I %)
   use_library = $(1:%=%.lib)
+  define_macro = /D $(1)$(if $(2),=$(2))
   disable_assert = /D NDEBUG
 else
   include_dir = $(1:%=-I%)
   use_library = $(1:%=-l%)
+  define_macro = -D$(1)$(if $(2),=$(2))
   disable_assert = -DNDEBUG
 endif
 

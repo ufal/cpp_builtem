@@ -158,6 +158,8 @@ provided:
   the given directories to include search path.
 - $(call use_library,library [library ...]): Return linker option adding the
   given libraries to the set of libraries linked againts.
+- $(call define_macro,macro_name[,macro_value]): Return compiler option
+  defining the specified macro, optionally with a given value.
 - $(call dissable_assert): Return compiler option which disable evaluation of
   assertions from cassert header.
 
