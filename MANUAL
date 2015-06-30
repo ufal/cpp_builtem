@@ -240,6 +240,16 @@ executables and libraries can be cleaned easily:
   files and debugging symbol files.
 
 
+Generic Platform Names
+----------------------
+
+It is also possible to convert generic file name which uses / (slash) as a
+directory separator into platform-specific name (using either slash or
+backslash):
+- $(call platform_name,filename[ filename ...]): Convert given file name using
+  / (slash) as a directory separator into platform-specific name.
+
+
 Shell Commands
 --------------
 

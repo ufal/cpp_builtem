@@ -26,8 +26,12 @@
     <li><a href="#toc5">2.3. Linking Commands</a>
     </li>
     <li><a href="#toc6">2.4. Platform Target Names</a>
+      <ul>
+      <li><a href="#toc7">2.4.1. Generic Platform Names</a>
+      </li>
+      </ul>
     </li>
-    <li><a href="#toc7">2.5. Shell Commands</a>
+    <li><a href="#toc8">2.5. Shell Commands</a>
     </li>
     </ul>
   </li>
@@ -381,6 +385,19 @@ executables and libraries can be cleaned easily:
 </ul>
 
 <a id="toc7" name="toc7"></a>
+<h3>2.4.1. Generic Platform Names</h3>
+
+<p style="margin-bottom:0">
+It is also possible to convert generic file name which uses <code>/</code> (slash) as a directory
+separator into platform-specific name (using either slash or backslash):
+</p>
+<ul style="margin-top:0">
+<li><code>$(call platform_name,filename[ filename ...])</code>: Convert given file name
+  using <code>/</code> (slash) as a directory separator into platform-specific name.
+</li>
+</ul>
+
+<a id="toc8" name="toc8"></a>
 <h2>2.5. Shell Commands</h2>
 
 <p style="margin-bottom:0">

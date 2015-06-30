@@ -1,6 +1,7 @@
 Version 1.0.1-devel
 -------------------
 - Add define_macro call.
+- Add platform_name call.
 
 
 Version 1.0.0 [29 Jun 2015]

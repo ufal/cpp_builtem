@@ -158,6 +158,13 @@ all_exe = $(foreach file,$(1:$(call exe,%)=%),$(file) $(file).exe $(file).pdb $(
 all_lib = $(foreach file,$(1:$(call lib,%)=%),$(file).a $(file).lib)
 all_dynlib = $(foreach file,$(1:$(call dynlib,%)=%),$(file).so $(file).dll $(file).pdb $(file).ilk $(file).dll.lib $(file).dll.exp $(file).dylib)
 
+# generic platform filenames
+ifneq ($(filter win-%,$(PLATFORM)),)
+  platform_name = $(subst /,\,$(1))
+else
+  platform_name = $(1)
+endif
+
 # switches
 ifneq ($(filter linux-gcc linux-clang win-gcc,$(PLATFORM)),)
   ifneq ($(filter undefined default,$(origin CXX)),)
