@@ -7,5 +7,5 @@
 @rem License, v. 2.0. If a copy of the MPL was not distributed with this
 @rem file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-@set PATH=%~dp0tdm-gcc-4.9.2\bin;%PATH%
+@set PATH=%~dp0tdm-gcc\bin;%PATH%
 @%~dp0mingw32-make\mingw32-make.exe %*
