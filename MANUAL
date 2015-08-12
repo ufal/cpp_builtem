@@ -28,7 +28,7 @@ The C++-Builtem also contains several (cross)compilers for Linux. For every
 a shell script that runs make using it.
 - gcc 4.9.2 compiled against libc from Debian Lenny using crosstool-ng
 - tdm-gcc 4.9.2
-- Visual C++ 2013
+- Visual C++ 2013 and Visual C++ 2015
 - remote clang execution on OS X using SSH
 
 Copyright 2014 by Institute of Formal and Applied Linguistics, Faculty of

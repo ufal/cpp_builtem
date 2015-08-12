@@ -8,6 +8,6 @@
 @rem file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 @set PATH=%~dp0visual-cpp\vc\bin;%~dp0visual-cpp\winsdk-v7.1a\bin;%PATH%
-@set INCLUDE=%~dp0visual-cpp\vc\include;%~dp0visual-cpp\winsdk-v7.1a\include
-@set LIB=%~dp0visual-cpp\vc\lib;%~dp0visual-cpp\winsdk-v7.1a\lib
+@set INCLUDE=%~dp0visual-cpp\vc\include;%~dp0visual-cpp\ucrt\include;%~dp0visual-cpp\winsdk-v7.1a\include
+@set LIB=%~dp0visual-cpp\vc\lib;%~dp0visual-cpp\ucrt\lib\x86;%~dp0visual-cpp\winsdk-v7.1a\lib
 @%~dp0mingw32-make\mingw32-make.exe %*

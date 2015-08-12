@@ -2,6 +2,7 @@ Version 1.0.1-devel
 -------------------
 - Add define_macro call.
 - Add platform_name call.
+- Support Visual C++ 2015 compiler.
 
 
 Version 1.0.0 [29 Jun 2015]

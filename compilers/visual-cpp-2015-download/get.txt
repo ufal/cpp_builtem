@@ -1,0 +1,25 @@
+# This file is part of C++-Builtem <http://github.com/ufal/cpp_builtem/>.
+#
+# Copyright 2015 Institute of Formal and Applied Linguistics, Faculty of
+# Mathematics and Physics, Charles University in Prague, Czech Republic.
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+- Download Visual Studio 2015 Community
+- Install it
+- Copy
+  - Program Files/Microsoft Visual Studio 14.0/VC/{bin,include,lib}
+    to visual-cpp-2015/vc
+  - Program Files/Microsoft SDKs/Windows/v7.1A to visual-cpp-2015/winsdk-v7.1a
+  - Program Files/Windows Kits/10/Include/*/crt/{include,lib}
+    to visual-cpp-2015/ucrt/{include,lib}
+- Install vcredist_x86.exe located at
+  Program Files/Microsoft Visual Studio 14.0/VC/redist/1033
+  to any XP machine; then copy
+  Windows\System32\{api-ms-win-crt-*,msvcp140,ucrtbase,vcruntim140}.dll
+  to visual-cpp-2015/vc/bin and visual-cpp-2015/vc/bin/x86_amd64
+
+Wine 1.7.49 and newer is needed. For debug builds, winbind
+must be installed.
