@@ -10,9 +10,10 @@
 - Download Visual Studio 2013 Express
 - Install it
 - Copy
-  - Program Files/Microsoft Visual Studio 12.0/VC into ../visual-cpp-2013/vc
-  - Program Files/Microsoft SDKs/Windows/v7.1A into ../visual-cpp/winsdk-v7.1a
-- If your Wine version does not contain msvc[pr]120.dll, copy them from
-  vs-12.0/redist/x86/microsoft.vc120.crt to both cl.exe. If your Wine has
-  incomplete builtin msvc[pr]120.dll (as Wine 1.7.33), also set override for
-  those two libraries.
+  - Program Files/Microsoft Visual Studio 12.0/VC to visual-cpp-2013/vc
+  - Program Files/Microsoft SDKs/Windows/v7.1A to visual-cpp-2013/winsdk-v7.1a
+  - both msvc[pr]120.dll from vs-12.0/redist/x86/microsoft.vc120.crt to
+    visual-cpp-2013/vc/bin and ../visual-cpp-2013/vc/bin/x86_amd64
+
+Wine 1.7.29 and newer have been tested. For debug builds, winbind
+must be installed.

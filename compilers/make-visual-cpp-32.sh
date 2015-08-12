@@ -9,4 +9,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-wine cmd /c Z:/`readlink -f $0`.bat PLATFORM=win-vs BITS=32 "$@"
+# Visual C++ 2013 DLL overrides
+VC2013DLL=msvcr120,msvcp120=n
+
+WINEDLLOVERRIDES=$VC2013DLL wine cmd /c Z:/`readlink -f $0`.bat PLATFORM=win-vs BITS=32 "$@"
