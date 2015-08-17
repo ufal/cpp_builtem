@@ -1,0 +1,4 @@
+C++ Builtem
+[![Build Status](https://travis-ci.org/ufal/cpp_builtem.svg?branch=master)](https://travis-ci.org/ufal/cpp_builtem)
+
+%!include: readme.t2t
