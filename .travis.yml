@@ -24,4 +24,4 @@ matrix:
       env: COMPILER=clang++-3.6
       addons: {apt: {packages: [clang-3.6], sources: [ubuntu-toolchain-r-test,llvm-toolchain-precise-3.6]}}
 script:
-  - CXX= make -C tests compile
+  - CXX=$COMPILER make -C tests compile
