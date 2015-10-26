@@ -1,5 +1,5 @@
-Version 1.1.1-devel
--------------------
+Version 1.1.2 [26 Oct 2015]
+---------------------------
 - Fix all corner cases in builtem_mangle and builtem_demangle.
 
 
