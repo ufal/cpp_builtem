@@ -17,6 +17,6 @@ set -e
 
 destination=remote_builds/`hostname``pwd | tr / _`
 ssh "$machine" mkdir -p remote_builds
-rsync -ac --delete . "$machine:$destination/"
+rsync -ac --delete $RSYNC_ARGS . "$machine:$destination/"
 ssh "$machine" cd "$destination" \&\& make "$@"
-rsync -ac "$machine:$destination/" .
+rsync -ac $RSYNC_ARGS "$machine:$destination/" .
