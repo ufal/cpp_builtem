@@ -18,4 +18,4 @@ VC2013DLL=msvcr120,msvcp120=n
 # Visual C++ 2015 DLL overrides
 VC2015DLL=api-ms-win-crt-conio-l1-1-0,api-ms-win-crt-convert-l1-1-0,api-ms-win-crt-environment-l1-1-0,api-ms-win-crt-filesystem-l1-1-0,api-ms-win-crt-heap-l1-1-0,api-ms-win-crt-locale-l1-1-0,api-ms-win-crt-math-l1-1-0,api-ms-win-crt-multibyte-l1-1-0,api-ms-win-crt-private-l1-1-0,api-ms-win-crt-process-l1-1-0,api-ms-win-crt-runtime-l1-1-0,api-ms-win-crt-stdio-l1-1-0,api-ms-win-crt-string-l1-1-0,api-ms-win-crt-time-l1-1-0,api-ms-win-crt-utility-l1-1-0,msvcp140,ucrtbase,vcruntime140=n
 
-WINEDLLOVERRIDES="$VC2013DLL;$VC2015DLL" wine cmd /c Z:/`readlink -f $0`.bat PLATFORM=win-vs BITS=64 "$@"
+WINEDLLOVERRIDES="$VC2013DLL;$VC2015DLL" WINEDEBUG=${WINEDEBUG:--all} wine cmd /c Z:/`readlink -f $0`.bat PLATFORM=win-vs BITS=64 "$@"
