@@ -3,6 +3,7 @@ Version 1.1.3-devel
 - Do not use debug mode of libstdc++.
 - Remove the U_FORTIFY_SOURCE option.
 - Add treat_warnings_as_errors flag.
+- Increase target OS X version to 10.9.
 
 
 Version 1.1.2 [26 Oct 2015]
