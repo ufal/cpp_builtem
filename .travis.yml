@@ -31,5 +31,5 @@ before_script:
   - export C_FLAGS='$(treat_warnings_as_errors)'
 
 script:
-  - if [ $PLATFORM == win-vs ]; then cmd.exe /C '"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat" && make -C test compile'; fi
+  - if [ $PLATFORM == win-vs ]; then cmd.exe //C 'C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvarsall.bat' amd64 '&&' make -C test compile; fi
   - if [ $PLATFORM != win-vs ]; then make -C tests compile; fi
