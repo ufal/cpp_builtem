@@ -26,7 +26,5 @@ matrix:
     - os: windows
       env: PLATFORM=win-vs CXX=cl BITS=64
       before_install: choco install make --no-progress -y
-env:
-  - C_FLAGS=$(treat_warnings_as_errors)
 script:
-  - make -C tests compile
+  - C_FLAGS="$(treat_warnings_as_errors)" make -C tests compile
