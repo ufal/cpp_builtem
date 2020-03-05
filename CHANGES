@@ -1,6 +1,7 @@
 Version 1.1.3-devel
 -------------------
 - Do not use debug mode of libstdc++.
+- Add treat_warnings_as_errors flag.
 
 
 Version 1.1.2 [26 Oct 2015]

@@ -278,11 +278,13 @@ ifeq ($(PLATFORM),win-vs)
   use_library = $(1:%=%.lib)
   define_macro = /D $(1)$(if $(2),=$(2))
   disable_assert = /D NDEBUG
+  treat_warnings_as_errors = /WX
 else
   include_dir = $(1:%=-I%)
   use_library = $(1:%=-l%)
   define_macro = -D$(1)$(if $(2),=$(2))
   disable_assert = -DNDEBUG
+  treat_warnings_as_errors = -Werror
 endif
 
 ifneq ($(filter linux-%,$(PLATFORM)),)
