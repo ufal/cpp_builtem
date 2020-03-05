@@ -1,5 +1,5 @@
 language: cpp
-matrix:
+jobs:
   include:
     - compiler: gcc
       env: PLATFORM=linux-gcc CXX=g++-4.9
@@ -26,9 +26,10 @@ matrix:
     - os: windows
       env: PLATFORM=win-vs CXX=cl BITS=64
       before_install: choco install make --no-progress -y
-env:
-  global:
-    - C_FLAGS='$(treat_warnings_as_errors)'
+
+before_script:
+  - export C_FLAGS='$(treat_warnings_as_errors)'
+
 script:
-  - if [ $PLATFORM  = win-vs ]; then cmd.exe /C '"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat" && make -C test compile'; fi
+  - if [ $PLATFORM == win-vs ]; then cmd.exe /C '"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat" && make -C test compile'; fi
   - if [ $PLATFORM != win-vs ]; then make -C tests compile; fi
