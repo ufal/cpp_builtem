@@ -1,6 +1,7 @@
 Version 1.1.3-devel
 -------------------
 - Do not use debug mode of libstdc++.
+- Remove the U_FORTIFY_SOURCE option.
 - Add treat_warnings_as_errors flag.
 
 
