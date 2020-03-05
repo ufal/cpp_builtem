@@ -183,7 +183,7 @@ ifneq ($(filter linux-gcc linux-clang win-gcc,$(PLATFORM)),)
   ifeq ($(MODE),normal)
     C_FLAGS += -O3
   else ifeq ($(MODE),debug)
-    C_FLAGS += -g -DDEBUG -D_GLIBCXX_DEBUG
+    C_FLAGS += -g -DDEBUG
   else ifeq ($(MODE),profile)
     C_FLAGS += -O3 $(if $(filter %-gcc,$(PLATFORM)),-g1 -pg,-gline-tables-only)
     LD_FLAGS += $(if $(filter %-gcc,$(PLATFORM)),-pg)

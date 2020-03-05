@@ -85,7 +85,7 @@ on the ``make`` command line) are the following:
     are not evaluated, the targets are stripped and static version of C++
     runtime is used (except for OS X).
   - ``debug``: Debug build. Debug information is produced and no optimizations
-    are performed. In addition, libstdc++ debugging is enabled on gcc.
+    are performed.
   - ``profile``: Profile build. It is a normal build with possibly limited
     debug information. On gcc, profiling is enabled with ``-pg``. Currently not
     supported on Visual C++.
