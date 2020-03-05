@@ -1,25 +1,32 @@
-dist: trusty
-sudo: false
 language: cpp
 matrix:
   include:
     - compiler: gcc
-      env: COMPILER=g++-4.7
-      addons: {apt: {packages: [g++-4.7], sources: [ubuntu-toolchain-r-test]}}
-    - compiler: gcc
-      env: COMPILER=g++-4.8
-      addons: {apt: {packages: [g++-4.8], sources: [ubuntu-toolchain-r-test]}}
-    - compiler: gcc
-      env: COMPILER=g++-4.9
+      env: PLATFORM=linux-gcc CXX=g++-4.9
       addons: {apt: {packages: [g++-4.9], sources: [ubuntu-toolchain-r-test]}}
     - compiler: gcc
-      env: COMPILER=g++-5
+      env: PLATFORM=linux-gcc CXX=g++-5
       addons: {apt: {packages: [g++-5], sources: [ubuntu-toolchain-r-test]}}
     - compiler: gcc
-      env: COMPILER=g++-6
+      env: PLATFORM=linux-gcc CXX=g++-6
       addons: {apt: {packages: [g++-6], sources: [ubuntu-toolchain-r-test]}}
+    - compiler: gcc
+      env: PLATFORM=linux-gcc CXX=g++-7
+      addons: {apt: {packages: [g++-7], sources: [ubuntu-toolchain-r-test]}}
+    - compiler: gcc
+      env: PLATFORM=linux-gcc CXX=g++-8
+      addons: {apt: {packages: [g++-8], sources: [ubuntu-toolchain-r-test]}}
+    - compiler: gcc
+      env: PLATFORM=linux-gcc CXX=g++-9
+      addons: {apt: {packages: [g++-9], sources: [ubuntu-toolchain-r-test]}}
     - compiler: clang
-      env: COMPILER=clang++
+      env: PLATFORM=linux-clang
+    - os: osx
+      env: PLATFORM=osx-clang
+    - os: windows
+      env: PLATFORM=win-vs BITS=64
+      before_install: choco install make --no-progress -y
+env:
+  - C_FLAGS=$(treat_warnings_as_errors)
 script:
-  - if test "$COMPILER" = "g++-4.7"; then COMPILER="g++-4.7 -D_GLIBCXX_USE_NANOSLEEP"; fi
-  - CXX=$COMPILER make -C tests compile
+  - make -C tests compile
