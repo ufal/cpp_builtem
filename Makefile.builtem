@@ -10,7 +10,7 @@
 BUILTEM_VERSION := 1.2.1-devel
 
 ###########
-# PATFORM #
+# PLATFORM #
 ###########
 
 # detection if needed
@@ -170,7 +170,18 @@ ifneq ($(filter linux-gcc linux-clang win-gcc,$(PLATFORM)),)
   ifneq ($(filter undefined default,$(origin CXX)),)
     CXX = $(if $(filter %-gcc,$(PLATFORM)),g++,clang++)
   endif
-  C_FLAGS += -std=c++11 -W -Wall -mtune=generic -msse -msse2 -mfpmath=sse -fvisibility=hidden
+  ISARM := 0
+  ifneq ($(filter linux-gcc linux-clang,$(PLATFORM)),)
+    UNAME_A := $(shell uname -a)
+    ifneq ($(filter arm%,$(UNAME_A)),)
+      ISARM := 1
+    endif
+  endif
+  ifeq ($(ISARM),1)
+    C_FLAGS += -std=c++11 -W -Wall -fvisibility=hidden -U_FORTIFY_SOURCE
+  else
+    C_FLAGS += -std=c++11 -W -Wall -mtune=generic -msse -msse2 -mfpmath=sse -fvisibility=hidden
+  endif
   DYN_C_FLAGS += $(if $(filter linux-%,$(PLATFORM)),-fPIC)
   DYN_LD_FLAGS += -shared
 
