@@ -24,11 +24,11 @@ The C++-Builtem also contains several (cross)compilers for Linux.
 For every (cross)compiler, there are instructions (or scripts) how to
 install it and also a shell script that runs make using it.
 - gcc 4.9.2 compiled against libc from Debian Lenny using crosstool-ng
-- tdm-gcc 4.9.2
-- Visual C++ 2013 and Visual C++ 2015
+- tdm-gcc 9.2.0
+- Visual C++ 2019
 - remote clang execution on OS X using SSH
 
-Copyright 2014 by Institute of Formal and Applied Linguistics, Faculty of
+Copyright 2022 by Institute of Formal and Applied Linguistics, Faculty of
 Mathematics and Physics, Charles University in Prague, Czech Republic.
 
 C++ Builtem repository http://github.com/ufal/cpp_builtem is hosted on GitHub.
