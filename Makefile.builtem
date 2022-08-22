@@ -171,6 +171,7 @@ ifneq ($(filter linux-gcc linux-clang win-gcc,$(PLATFORM)),)
     CXX = $(if $(filter %-gcc,$(PLATFORM)),g++,clang++)
   endif
   C_FLAGS += -std=c++11 -W -Wall -mtune=generic -msse -msse2 -mfpmath=sse -fvisibility=hidden
+  C_FLAGS += $(if $(filter win-%,$(PLATFORM)),-DUNICODE -D_UNICODE -D_WIN32_WINNT=0x0601)
   DYN_C_FLAGS += $(if $(filter linux-%,$(PLATFORM)),-fPIC)
   DYN_LD_FLAGS += -shared
 
@@ -299,7 +300,7 @@ endif
 ifeq ($(PLATFORM),win-vs)
   win_subsystem = /SUBSYSTEM:$(1),$(if $(filter 32,$(BITS)),5.01,5.02)
 else ifeq ($(PLATFORM),win-gcc)
-  win_subsystem = -Wl,--subsystem=$(1)
+  win_subsystem = -Wl,--subsystem=$(1) $(if $(filter wmain,$(2)),-municode,)
 endif
 
 ################
