@@ -19,9 +19,8 @@ my $output_first = 1;
 sub output {
   my ($line, $lbr, $rbr) = @_;
   if (length $line) {
-    print ".objs/cl_deps.cpp:\n" if $output_first;
+    print ".build/cl_deps.cpp: | .build\n" if $output_first;
     print "\t@\$(info Generating cl_deps.cpp)\n" if $output_first;
-    print "\t@\$(call mkdir,.objs)\n" if $output_first;
     print "\t@\$${lbr}call echo," . ($output_first ? ">" : ">>") . "\$@,$line$rbr\n";
     $output_first = 0;
   }

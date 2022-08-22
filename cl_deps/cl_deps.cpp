@@ -52,6 +52,11 @@ int main(int argc, char* argv[]) {
   if (argc <= 2)
     fatal_error("Usage: cl_deps output_obj cmd [args]");
 
+  // Force English messages in the output of `cl.exe` so that English
+  // `include_prefix` is generated. If non-English output of `cl.exe`
+  // is required, we would need to configure `include_prefix`.
+  SetEnvironmentVariableA("VSLANG", "1033");
+
   // Get current directory.
   char cwd[MAX_PATH+1];
   GetCurrentDirectoryA(MAX_PATH, cwd);

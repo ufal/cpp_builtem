@@ -1,0 +1,24 @@
+# This file is part of C++-Builtem <http://github.com/ufal/cpp_builtem/>.
+#
+# Copyright 2022 Institute of Formal and Applied Linguistics, Faculty of
+# Mathematics and Physics, Charles University in Prague, Czech Republic.
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+- Download Visual Studio Build Tools 2019
+- Install C++ Build Tools, MSVC v142, Windows 10 SDK
+- From Program Files/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.*/
+  copy bin/Hostx86/{x86,x64}, include, lib/{x86,x64} to visual-cpp-2019/vc
+  to bin/{x86,x64}, include, lib/{x86,x64}
+- From Program Files/Windows Kits/10/
+  - copy Include/10.*/ucrt to visual-cpp-2019/ucrt/include
+  - copy Lib/10.*/ucrt/{x86,x64} to visual-cpp-2019/ucrt/lib/{x86,x64}
+  - copy bin/10.*/{x86,x64} to visual-cpp-2019/winsdk/bin/{x86,x64}
+  - copy Include/10.*/{shared+um} to visual-cpp-2019/winsdk/include
+  - copy Lib/10.*/um/{x86,x64} to visual-cpp-2019/winsdk/lib/{x86,x64}
+- If needed, copy also Program Files/Windows Kits/10/Redist/ucrt
+  and Program Files/Microsoft Visual Studio/2019/BuildTools/VC/Redist/MSVC/14.*
+
+Wine 5.0.3 has been tested, newer versions are expected to work too.
