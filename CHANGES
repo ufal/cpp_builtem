@@ -1,5 +1,8 @@
 Version 1.2.1-devel
 -------------------
+- Upgrade TDM-GCC to 9.2.
+- Upgrade Visual Studio C++ to 2019.
+- Upgrade OS X support to include ARM64 and drop i386.
 
 
 Version 1.2.0 [5 Mar 2020]

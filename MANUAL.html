@@ -230,7 +230,7 @@ on the <code>make</code> command line) are the following:
   </li>
   <li><code>64</code>: Use 64-bit architecture.
   </li>
-  <li><code>32+64</code>: Use both 32-bit and 64-bit architecture. Usable on OS X only.
+  <li><code>arm64</code>: Use ARM 64-bit architecture (usable on OS X only).
   </li>
   </ul>
   Note that when using Visual C++, bitness must always be specified. That is caused by
@@ -334,12 +334,10 @@ Several platform-specific flags can be used as linker flags of the <code>link_ex
   <code>windows-gcc</code>) with supported linkers <code>bfd</code> (the default one) and
   <code>gold</code>.
 </li>
-<li><code>$(call win_subsystem,subsystem)</code>: Use specified Windows subsystem (usually
-  either <code>console</code> or <code>windows</code>) with major required subsystem version 5.
-  Note that the main entry point is always <code>main</code> even if <code>windows</code>
-  subsystem is used. Also note that if this flag is not present for ``Visual
-  C++`` compiler, the major subsystem version is 6 (i.e. the resulting binary
-  does not work on Windows XP).
+<li><code>$(call win_subsystem,subsystem,entrypoint)</code>: Use specified Windows subsystem
+  (usually either <code>console</code> or <code>windows</code>) with major required subsystem
+  version 6 (i.e., Windows XP and older will not work). The <code>entrypoint</code> can
+  be <code>main</code> (the default) or <code>wmain</code> for a console application.
 </li>
 </ul>
 

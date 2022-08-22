@@ -97,7 +97,7 @@ on the ``make`` command line) are the following:
   compiler is used) or one of:
   - ``32``: Use 32-bit architecture.
   - ``64``: Use 64-bit architecture.
-  - ``32+64``: Use both 32-bit and 64-bit architecture. Usable on OS X only.
+  - ``arm64``: Use ARM 64-bit architecture (usable on OS X only).
   -
   Note that when using Visual C++, bitness must always be specified. That is caused by
   the fact that when specifying link subsystem, it is either 5.01 for 32-bit or
@@ -169,12 +169,10 @@ Several platform-specific flags can be used as linker flags of the ``link_exe`` 
   Applies to gcc compiler only (``linux-gcc`` platform and possibly also
   ``windows-gcc``) with supported linkers ``bfd`` (the default one) and
   ``gold``.
-- ``$(call win_subsystem,subsystem)``: Use specified Windows subsystem (usually
-  either ``console`` or ``windows``) with major required subsystem version 5.
-  Note that the main entry point is always ``main`` even if ``windows``
-  subsystem is used. Also note that if this flag is not present for ``Visual
-  C++`` compiler, the major subsystem version is 6 (i.e. the resulting binary
-  does not work on Windows XP).
+- ``$(call win_subsystem,subsystem,entrypoint)``: Use specified Windows subsystem
+  (usually either ``console`` or ``windows``) with major required subsystem
+  version 6 (i.e., Windows XP and older will not work). The ``entrypoint`` can
+  be ``main`` (the default) or ``wmain`` for a console application.
 
 
 == Platform Target Names ==
