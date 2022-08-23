@@ -10,7 +10,7 @@ jobs:
       matrix:
         os: [windows-2019, windows-2022]
         bits: [32, 64]
-      fast-fail: false
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v3
@@ -38,7 +38,7 @@ jobs:
         os: ubuntu-22.04
         gcc: [9, 10, 11]
         bits: [32, 64]
-      fast-fail: false
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v3
@@ -59,7 +59,7 @@ jobs:
         os: macos-11
         clang: [clang++-13, "$(brew --prefix llvm@13)/bin/clang", "$(brew --prefix llvm@14)/bin/clang"]
         bits: [64, arm64]
-      fast-fail: false
+      fail-fast: false
 
     steps:
       - uses: actions/checkout@v3
