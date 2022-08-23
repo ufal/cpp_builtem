@@ -65,6 +65,7 @@ ifeq ($(PLATFORM_SHELL),sh)
   mv = mv $(1) $(2)
   rm = rm -rf $(1)
 else ifeq ($(PLATFORM_SHELL),cmd)
+  SHELL = cmd
   mkdir = if not exist $(subst /,\,$(1)) md $(subst /,\,$(1))
   echo = $(if $(2),echo $(subst <,^<,$(subst >,^>,$(subst &,^&,$(subst |,^|,$(subst %,%%,$(subst ^,^^,$(2))))))),type nul)$(subst /,\,$(1))
   cp = copy /y $(subst /,\,$(1)) $(subst /,\,$(2))
