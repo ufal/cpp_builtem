@@ -9,9 +9,9 @@
 
 BUILTEM_VERSION := 1.2.1-devel
 
-###########
-# PATFORM #
-###########
+############
+# PLATFORM #
+############
 
 # detection if needed
 ifndef PLATFORM
