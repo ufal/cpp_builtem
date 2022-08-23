@@ -1,0 +1,73 @@
+name: Compile test
+
+on: push
+
+jobs:
+  windows:
+    name: Compile test on Windows
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-2019, windows-2022]
+        bits: [32, 64]
+      fast-fail: false
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: win${{ matrix.bits }}
+
+      - name: Install make
+        run: choco install -y make
+
+      - name: Compile
+        run: make -k -C tests compile
+        shell: cmd
+        env:
+          PLATFORM: win-vs
+          BITS: ${{ matrix.bits }}
+          C_FLAGS: "'$(treat_warnings_as_errors)'"
+
+  linux:
+    name: Compile test on Linux
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ubuntu-22.04
+        gcc: [9, 10, 11]
+        bits: [32, 64]
+      fast-fail: false
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Compile
+        run: make -k -C tests compile
+        env:
+          PLATFORM: linux-gcc
+          CXX: g++-${{ matrix.gcc }}
+          BITS: ${{ matrix.bits }}
+          C_FLAGS: "'$(treat_warnings_as_errors)'"
+
+  macos:
+    name: Compile test on macOS
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: macos-11
+        clang: [clang++-13, "$(brew --prefix llvm@13)/bin/clang", "$(brew --prefix llvm@14)/bin/clang"]
+        bits: [64, arm64]
+      fast-fail: false
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Compile
+        run: make -k -C tests compile
+        env:
+          PLATFORM: osx-clang
+          CXX: ${{ matrix.clang }}
+          BITS: ${{ matrix.bits }}
+          C_FLAGS: "'$(treat_warnings_as_errors)'"
