@@ -23,7 +23,7 @@ jobs:
         run: choco install --no-progress -y make
 
       - name: Compile
-        run: make PLATFORM=win-vs -d --trace -k -C tests compile
+        run: make PLATFORM=win-vs -k -C tests compile
         shell: cmd
         env:
           BITS: ${{ matrix.bits }}
