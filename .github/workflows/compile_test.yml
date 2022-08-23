@@ -53,7 +53,6 @@ jobs:
     runs-on: macos-11
     strategy:
       matrix:
-        clang: [clang++, "$(brew --prefix llvm@14)/bin/clang"]
         bits: [64, arm64]
       fail-fast: false
 
@@ -64,6 +63,5 @@ jobs:
         run: make -k -C tests compile
         env:
           PLATFORM: osx-clang
-          CXX: "${{ matrix.clang }}"
           BITS: ${{ matrix.bits }}
           C_FLAGS: "$(treat_warnings_as_errors)"
