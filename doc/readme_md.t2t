@@ -1,4 +1,4 @@
 C++ Builtem
-[![Build Status](https://travis-ci.org/ufal/cpp_builtem.svg?branch=master)](https://travis-ci.org/ufal/cpp_builtem)
+[![Build Status](https://github.com/ufal/cpp_builtem/actions/workflows/compile_test.yml/badge.svg)](https://github.com/ufal/cpp_builtem/actions/workflows/compile_test.yml)
 
 %!include: readme.t2t

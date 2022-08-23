@@ -1,5 +1,5 @@
 # C++ Builtem
-[![Build Status](https://travis-ci.org/ufal/cpp_builtem.svg?branch=master)](https://travis-ci.org/ufal/cpp_builtem)
+[![Build Status](https://github.com/ufal/cpp_builtem/actions/workflows/compile_test.yml/badge.svg)](https://github.com/ufal/cpp_builtem/actions/workflows/compile_test.yml)
 
 C++ Builtem is a cross-platform Makefile-based build system for C++11
 released under [MPL 2.0 license](http://www.mozilla.org/MPL/2.0/).
