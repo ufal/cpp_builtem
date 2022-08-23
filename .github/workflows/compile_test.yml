@@ -31,10 +31,9 @@ jobs:
         run: which make
 
       - name: Compile
-        run: make -d --trace -k -C tests compile
+        run: make PLATFORM=win-vs -d --trace -k -C tests compile
         shell: cmd
         env:
-          PLATFORM: win-vs
           BITS: ${{ matrix.bits }}
           C_FLAGS: "$(treat_warnings_as_errors)"
 
@@ -50,9 +49,8 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Compile
-        run: make -k -C tests compile
+        run: make PLATFORM=linux-gcc -k -C tests compile
         env:
-          PLATFORM: linux-gcc
           CXX: ${{ matrix.gcc }}
           C_FLAGS: "$(treat_warnings_as_errors)"
 
@@ -68,8 +66,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Compile
-        run: make -k -C tests compile
+        run: make PLATFORM=osx-clang -k -C tests compile
         env:
-          PLATFORM: osx-clang
           BITS: ${{ matrix.bits }}
           C_FLAGS: "$(treat_warnings_as_errors)"
