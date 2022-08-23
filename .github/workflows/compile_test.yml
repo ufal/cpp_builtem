@@ -20,23 +20,22 @@ jobs:
           arch: win${{ matrix.bits }}
 
       - name: Install make
-        run: choco install -y make
+        run: choco install --no-progress -y make
 
       - name: Compile
-        run: make -k -C tests compile
+        run: C:\ProgramData\Chocolatey\bin\make -k -C tests compile
         shell: cmd
         env:
           PLATFORM: win-vs
           BITS: ${{ matrix.bits }}
-          C_FLAGS: "'$(treat_warnings_as_errors)'"
+          C_FLAGS: "$(treat_warnings_as_errors)"
 
   linux:
     name: Compile test on Linux
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        gcc: [9, 10, 11]
-        bits: [32, 64]
+        gcc: [g++-9, g++-10, g++-11]
       fail-fast: false
 
     steps:
@@ -46,16 +45,15 @@ jobs:
         run: make -k -C tests compile
         env:
           PLATFORM: linux-gcc
-          CXX: g++-${{ matrix.gcc }}
-          BITS: ${{ matrix.bits }}
-          C_FLAGS: "'$(treat_warnings_as_errors)'"
+          CXX: ${{ matrix.gcc }}
+          C_FLAGS: "$(treat_warnings_as_errors)"
 
   macos:
     name: Compile test on macOS
     runs-on: macos-11
     strategy:
       matrix:
-        clang: [clang++-13, "$(brew --prefix llvm@13)/bin/clang", "$(brew --prefix llvm@14)/bin/clang"]
+        clang: [clang++, "$(brew --prefix llvm@14)/bin/clang"]
         bits: [64, arm64]
       fail-fast: false
 
@@ -66,6 +64,6 @@ jobs:
         run: make -k -C tests compile
         env:
           PLATFORM: osx-clang
-          CXX: ${{ matrix.clang }}
+          CXX: "${{ matrix.clang }}"
           BITS: ${{ matrix.bits }}
-          C_FLAGS: "'$(treat_warnings_as_errors)'"
+          C_FLAGS: "$(treat_warnings_as_errors)"
