@@ -22,14 +22,6 @@ jobs:
       - name: Install make
         run: choco install --no-progress -y make
 
-      - name: Printenv
-        shell: bash
-        run: printenv
-
-      - name: Which make
-        shell: bash
-        run: which make
-
       - name: Compile
         run: make PLATFORM=win-vs -d --trace -k -C tests compile
         shell: cmd
