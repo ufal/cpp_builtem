@@ -23,7 +23,7 @@ jobs:
         run: choco install --no-progress -y make
 
       - name: Compile
-        run: C:\ProgramData\Chocolatey\bin\make -k -C tests compile
+        run: make -d --trace -k -C tests compile
         shell: cmd
         env:
           PLATFORM: win-vs
