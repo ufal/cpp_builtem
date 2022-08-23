@@ -32,10 +32,9 @@ jobs:
 
   linux:
     name: Compile test on Linux
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
-        os: ubuntu-22.04
         gcc: [9, 10, 11]
         bits: [32, 64]
       fail-fast: false
@@ -53,10 +52,9 @@ jobs:
 
   macos:
     name: Compile test on macOS
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-11
     strategy:
       matrix:
-        os: macos-11
         clang: [clang++-13, "$(brew --prefix llvm@13)/bin/clang", "$(brew --prefix llvm@14)/bin/clang"]
         bits: [64, arm64]
       fail-fast: false
