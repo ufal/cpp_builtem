@@ -47,5 +47,3 @@ jobs:
 
       - name: Compile
         run: make ${{ matrix.flags }} -k -C tests compile
-        env:
-          C_FLAGS: $(treat_warnings_as_errors)
