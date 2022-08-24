@@ -19,7 +19,7 @@ jobs:
             flags: CXX=g++-11 PLATFORM=linux-gcc
           - os: ubuntu-22.04
             flags: BITS=32 PLATFORM=linux-gcc
-            container: quay.io/pypa/manylinux2014_i686
+            container: quay.io/pypa/manylinux2014_x86_64
           - os: ubuntu-22.04
             flags: BITS=64 PLATFORM=linux-gcc
             container: quay.io/pypa/manylinux2014_x86_64
