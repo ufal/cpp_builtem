@@ -3,62 +3,45 @@ name: Compile test
 on: push
 
 jobs:
-  windows:
-    name: Compile test on Windows
+  compile_test:
+    name: Compile test
     runs-on: ${{ matrix.os }}
     strategy:
-      matrix:
-        os: [windows-2019, windows-2022]
-        bits: [32, 64]
       fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            flags: PLATFORM=linux-gcc CXX=g++-9
+          - os: ubuntu-22.04
+            flags: PLATFORM=linux-gcc CXX=g++-10
+          - os: ubuntu-22.04
+            flags: PLATFORM=linux-gcc CXX=g++-11
+          - os: windows-2019
+            flags: PLATFORM=win-vs BITS=32
+          - os: windows-2019
+            flags: PLATFORM=win-vs BITS=64
+          - os: windows-2022
+            flags: PLATFORM=win-vs BITS=32
+          - os: windows-2022
+            flags: PLATFORM=win-vs BITS=64
+          - os: macos-11
+            flags: PLATFORM=osx-clang BITS=64
+          - os: macos-11
+            flags: PLATFORM=osx-clang BITS=arm64
 
     steps:
       - uses: actions/checkout@v3
 
-      - uses: ilammy/msvc-dev-cmd@v1
+      - if: startsWith(matrix.os, "windows")
+        uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: win${{ matrix.bits }}
 
-      - name: Install make
+      - if: startsWith(matrix.os, "windows")
+        name: Install make
         run: choco install --no-progress -y make
 
       - name: Compile
-        run: make PLATFORM=win-vs -k -C tests compile
-        shell: cmd
+        run: make ${{ matrix.flags }} -k -C tests compile
         env:
-          BITS: ${{ matrix.bits }}
-          C_FLAGS: "$(treat_warnings_as_errors)"
-
-  linux:
-    name: Compile test on Linux
-    runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        gcc: [g++-9, g++-10, g++-11]
-      fail-fast: false
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Compile
-        run: make PLATFORM=linux-gcc -k -C tests compile
-        env:
-          CXX: ${{ matrix.gcc }}
-          C_FLAGS: "$(treat_warnings_as_errors)"
-
-  macos:
-    name: Compile test on macOS
-    runs-on: macos-11
-    strategy:
-      matrix:
-        bits: [64, arm64]
-      fail-fast: false
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Compile
-        run: make PLATFORM=osx-clang -k -C tests compile
-        env:
-          BITS: ${{ matrix.bits }}
-          C_FLAGS: "$(treat_warnings_as_errors)"
+          C_FLAGS: $(treat_warnings_as_errors)
