@@ -35,7 +35,7 @@ jobs:
       - if: startsWith(matrix.os, 'windows')
         uses: ilammy/msvc-dev-cmd@v1
         with:
-          arch: win${{ matrix.bits }}
+          arch: ${{ contains(matrix.flags, 'BITS=32') && 'x86' || 'x64' }}
 
       - if: startsWith(matrix.os, 'windows')
         name: Install make
