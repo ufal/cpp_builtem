@@ -32,12 +32,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - if: startsWith(matrix.os, "windows")
+      - if: startsWith(matrix.os, 'windows')
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: win${{ matrix.bits }}
 
-      - if: startsWith(matrix.os, "windows")
+      - if: startsWith(matrix.os, 'windows')
         name: Install make
         run: choco install --no-progress -y make
 
