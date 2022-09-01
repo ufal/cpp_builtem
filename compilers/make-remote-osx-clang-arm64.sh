@@ -11,4 +11,4 @@
 
 machine="$1"
 shift
-${0%-32+64.sh}.sh "$machine" BITS=32+64 "$@"
+${0%-arm64.sh}.sh "$machine" BITS=arm64 "$@"
