@@ -9,4 +9,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-wine cmd /c Z:/`readlink -f $0`.bat PLATFORM=win-gcc "$@"
+machine="$1"
+shift
+${0%-arm64.sh}.sh "$machine" PLATFORM=macos-clang-arm64 "$@"

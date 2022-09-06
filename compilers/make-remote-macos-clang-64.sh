@@ -11,4 +11,4 @@
 
 machine="$1"
 shift
-${0%-arm64.sh}.sh "$machine" BITS=arm64 "$@"
+${0%-64.sh}.sh "$machine" PLATFORM=macos-clang-64 "$@"

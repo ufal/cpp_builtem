@@ -1,5 +1,11 @@
-Version 1.3.1-dev
+Version 2.0.0-dev
 -----------------
+- Add C++14 and C++17 support via CPP_STANDARD variable.
+- Make PLATFORM a triple system-compiler-architecture
+  and remove the BITS variable. If no architecture is
+  specified, the system architecture is used automatically.
+- Change the default Windows compiler to Visual C++.
+- Rename OS X to macOS.
 
 
 Version 1.3.0 [24 Aug 2022]

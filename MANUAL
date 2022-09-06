@@ -1,12 +1,12 @@
 C++ Builtem
-Version 1.3.1-dev
+Version 2.0.0-dev
 
 Introduction
 ============
 
-C++ Builtem is a cross-platform Makefile-based build system for C++11 released
-under MPL 2.0 license (http://www.mozilla.org/MPL/2.0/). It is versioned using
-Semantic Versioning (http://semver.org/).
+C++ Builtem is a cross-platform Makefile-based build system for C++11/14/17
+released under MPL 2.0 license (http://www.mozilla.org/MPL/2.0/). It is
+versioned using Semantic Versioning (http://semver.org/).
 
 Features:
 - can create binaries, static libraries and shared libraries
@@ -18,9 +18,8 @@ Features:
 - automatic dependency generation
 
 Supported platforms and compilers:
-- gcc on Linux
-- clang on OS X and Linux
-- tdm-gcc on Windows (either cmd.exe or sh shell)
+- gcc on Linux and Windows
+- clang on macOS and Linux
 - Visual C++ on Windows (either cmd.exe or sh shell)
 
 The C++-Builtem also contains several (cross)compilers for Linux. For every
@@ -29,7 +28,7 @@ a shell script that runs make using it.
 - gcc 4.9.2 compiled against libc from Debian Lenny using crosstool-ng
 - tdm-gcc 9.2.0
 - Visual C++ 2019
-- remote clang execution on OS X using SSH
+- remote clang execution on macOS using SSH
 
 Copyright 2022 by Institute of Formal and Applied Linguistics, Faculty of
 Mathematics and Physics, Charles University in Prague, Czech Republic.
@@ -45,7 +44,7 @@ it defines several targets, it does not define a default goal, so the first
 target in the user Makefile is still the default goal.
 
 Using several build controlling variables, Makefile.builtem defines implicit
-rules for compiling C++11 object files and provides three linking methods
+rules for compiling C++11/14/17 object files and provides three linking methods
 (executables, dynamic libraries, library archives). The dependencies of object
 files are tracked automatically.
 
@@ -57,10 +56,10 @@ allows object files for different modes (release/profile) and different
 platforms to coexist.
 
 During linking, Makefile.builtem makes sure a target is relinked if different
-compilation platform, mode or bitness is used. Nevertheless, for this to work,
-the link command must be defined in a regular rule or static pattern rule, not
-in an implicit rule (the .PHONY is used to force the linking which does not work
-with implicit rules).
+compilation platform or compilation mode is used. Nevertheless, for this to
+work, the link command must be defined in a regular rule or static pattern rule,
+not in an implicit rule (the .PHONY is used to force the linking which does not
+work with implicit rules).
 
 The Makefile.builtem works for either any Posix Shell or Windows CMD shell. To
 that end, several file manipulation methods are defined so that they are shell
@@ -74,31 +73,31 @@ Variables Controlling the Build
 The main variables controlling the build (they are most commonly specified on
 the make command line) are the following:
 - PLATFORM:
-  The platform to use. Available platforms are:
-  - linux, linux-gcc: Linux platform using gcc compiler.
-  - linux-clang: Linux platform using clang compiler.
-  - win, win-gcc: Windows platform using gcc compiler (TDM-GCC is tested
-    thoroughly, although MinGW-w64 works too). The shell can be either Posix or
-    CMD.
-  - win-vs: Windows platform using Visual C++ 2013 compiler or newer. The CMD
-    shell is thoroughly tested, but Posix shell should probably work too.
+  The platform to use, using the pattern system-compiler-architecture. If the
+  compiler is missing, a default one for the system is chosen; if the
+  architecture is missing, the system architecture is used.
 
-    The automatic dependency tracking uses the /showIncludes option and uses
-    cl_deps binary to parse its output to Makefile format. The
-    .build/cl_deps.cpp is created by the Makefile.builtem and compiled
-    automatically into .build/cl_deps.exe binary. Note that if 64-bit compiler
-    is used, the cl_deps is also 64-bit, which might break the build if it is
-    performed on 32-bit system. In that case, first build the .build/cl_deps.exe
-    using 32-bit compiler.
-
-    Note that for this platform bitness must be always specified
-  - osx, osx-clang: OS X platform using clang compiler.
-  If the platform is not specified, one of linux, win and osx is detected
+  The available platforms are:
+  - linux, linux-gcc, linux-gcc-64, linux-gcc-32: Linux system using the gcc
+    compiler, targeting x86_64 or x86.
+  - linux-clang, linux-clang-64, linux-clang-32: Linux system using the clang
+    compiler, targeting x86_64 or x86.
+  - win, win-vs, win-vs-64, win-vs-32: Windows system using the Visual C++ 2019
+    compiler or newer, with x86_64 or x86 architectures. The CMD shell is
+    thoroughly tested, but Posix shell should probably work too.
+    The automatic dependency tracking utilizes the /showIncludes option of the
+    cl compiler, and the build process uses cl_deps binary to parse its output
+    to a Makefile-compatible format. The .build/cl_deps.cpp is created by the
+    Makefile.builtem and compiled automatically into .build/cl_deps.exe binary.
+    Because the /showIncludes generates localized messages, the cl_deps binary
+    switches the compiler messages to English.
+  - win-gcc: Windows system using the gcc compiler (TDM-GCC is tested
+    thoroughly, although MinGW-w64 works too), targeting x86_64 or x86. The
+    shell can be either Posix or CMD.
+  - macos, macos-clang, macos-clang-64, macos-clang-amd64: macOS system using
+    the clang compiler, targeting x86_64 or arm64.
+  If the platform is not specified, one of linux, win, and macos is detected
   automatically.
-
-- CXX:
-  The C++11 compiler to use. If not defined, it is set according to PLATFORM to
-  either g++, clang++ or cl.
 
 - PLATFORM_SHELL:
   The shell to use. Supported shells are:
@@ -107,6 +106,13 @@ the make command line) are the following:
     separator. It is automatically converted to backslash where necessary.
   If not specified, it is detected automatically.
 
+- CXX:
+  The C++11/14/17 compiler to use. If not defined, it is set according to
+  PLATFORM to either g++, clang++ or cl.
+
+- CPP_STANDARD:
+  The C++ standard to use, either c++11, c++14, or c++17.
+
 - MODE:
   Compilation mode to use. Available compilation modes are:
   - normal: Normal build. Optimizations are used, assertions are evaluated, but
@@ -114,25 +120,13 @@ the make command line) are the following:
     used (except for Windows).
   - release: Release build. Link time optimizations are used, assertions are
     not evaluated, the targets are stripped and static version of C++ runtime is
-    used (except for OS X).
+    used (except for macOS).
   - debug: Debug build. Debug information is produced and no optimizations are
     performed.
   - profile: Profile build. It is a normal build with possibly limited debug
     information. On gcc, profiling is enabled with -pg. Currently not supported
     on Visual C++.
   The compilation mode defaults to normal if not specified.
-
-- BITS:
-  The bitness of the build. Can be either unspecified (then the default of the
-  compiler is used) or one of:
-  - 32: Use 32-bit architecture.
-  - 64: Use 64-bit architecture.
-  - arm64: Use ARM 64-bit architecture (usable on OS X only).
-  Note that when using Visual C++, bitness must always be specified. That is
-  caused by the fact that when specifying link subsystem, it is either 5.01 for
-  32-bit or 5.02 for 64-bit architecture. According to documentation 5 should
-  also work (and would probably automatically append valid minor version), but
-  the linker does not accept it.
 
 
 Compilation Options
@@ -150,7 +144,7 @@ The compilation option can be specified using the following variables:
   to be prefixed with -Wl, if they are real linker flags). This is in accordance
   with how linker flags are interpreted in the respective platforms.
 - DYN_LD_FLAGS: Linker flags appended for dynamic libraries linking (i.e.
-  -shared on Linux and -dynamiclib on OS X).
+  -shared on Linux and -dynamiclib on macOS).
 
 Because compilers have different option syntax, the following methods are also
 provided:
@@ -212,15 +206,15 @@ Platform Target Names
 Because object files, executables and libraries have different names on
 different platforms, you should use the following methods:
 - $(call obj,source_file_without_extension): Create name of object file for
-  specified C++ 11 source suitable for linking an executable. A mangling scheme
-  is used, so that the object file is always in .build directory and the
-  following information is encoded in the object name: input subdirectory,
-  platform, compile mode and bitness. Note that this means that if you use
-  $(call obj,%) as a dependency, you must use second expansion (i.e. $$(call
-  obj,%)) so that the % is replaced by the real path before calling obj.
+  specified C++ source suitable for linking an executable. A mangling scheme is
+  used, so that the object file is always in .build directory and the following
+  information is encoded in the object name: input subdirectory, platform,
+  compile mode and bitness. Note that this means that if you use $(call obj,%)
+  as a dependency, you must use second expansion (i.e. $$(call obj,%)) so that
+  the % is replaced by the real path before calling obj.
 - $(call dynobj,source_file_without_extension): Create name of object file for
-  specified C++ 11 source suitable for linking a dynamic library. As with obj,
-  the mangling scheme is also used.
+  specified C++ source suitable for linking a dynamic library. As with obj, the
+  mangling scheme is also used.
 - $(call exe,executable_without_extension): Create executable name of the given
   extensionless name.
 - $(call lib,library_archive_without_extension): Create library archive name of

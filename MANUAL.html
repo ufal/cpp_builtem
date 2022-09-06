@@ -9,7 +9,7 @@
 
 <div class="header" id="header">
 <h1>C++ Builtem</h1>
-<h2>Version 1.3.1-dev</h2>
+<h2>Version 2.0.0-dev</h2>
 </div>
 
 <div class="toc">
@@ -44,7 +44,7 @@
 <h1>1. Introduction</h1>
 
 <p>
-C++ Builtem is a cross-platform Makefile-based build system for C++11
+C++ Builtem is a cross-platform Makefile-based build system for C++11/14/17
 released under <a href="http://www.mozilla.org/MPL/2.0/">MPL 2.0 license</a>.
 It is versioned using <a href="http://semver.org/">Semantic Versioning</a>.
 </p>
@@ -74,11 +74,9 @@ Features:
 Supported platforms and compilers:
 </p>
 <ul style="margin-top:0">
-<li>gcc on Linux
+<li>gcc on Linux and Windows
 </li>
-<li>clang on OS X and Linux
-</li>
-<li>tdm-gcc on Windows (either cmd.exe or sh shell)
+<li>clang on macOS and Linux
 </li>
 <li>Visual C++ on Windows (either cmd.exe or sh shell)
 </li>
@@ -96,7 +94,7 @@ install it and also a shell script that runs make using it.
 </li>
 <li>Visual C++ 2019
 </li>
-<li>remote clang execution on OS X using SSH
+<li>remote clang execution on macOS using SSH
 </li>
 </ul>
 
@@ -118,7 +116,7 @@ first target in the user Makefile is still the default goal.
 </p>
 <p>
 Using several build controlling variables, <code>Makefile.builtem</code> defines
-implicit rules for compiling C++11 object files and provides three linking
+implicit rules for compiling C++11/14/17 object files and provides three linking
 methods (executables, dynamic libraries, library archives). The dependencies
 of object files are tracked automatically.
 </p>
@@ -132,7 +130,7 @@ different platforms to coexist.
 </p>
 <p>
 During linking, <code>Makefile.builtem</code> makes sure a target is relinked if
-different compilation platform, mode or bitness is used. Nevertheless, for this
+different compilation platform or compilation mode is used. Nevertheless, for this
 to work, the link command must be defined in a regular rule or static pattern
 rule, not in an implicit rule (the <code>.PHONY</code> is used to force the linking
 which does not work with implicit rules).
@@ -153,41 +151,44 @@ on the <code>make</code> command line) are the following:
 </p>
 <ul style="margin-top:0">
 <li><code>PLATFORM</code>:<br>
-  The platform to use. Available platforms are:
+  The platform to use, using the pattern <code>system-compiler-architecture</code>.
+  If the <code>compiler</code> is missing, a default one for the <code>system</code> is chosen;
+  if the <code>architecture</code> is missing, the system architecture is used.
+<p></p>
+  The available platforms are:
   <ul>
-  <li><code>linux</code>, <code>linux-gcc</code>: Linux platform using gcc compiler.
+  <li><code>linux</code>, <code>linux-gcc</code>, <code>linux-gcc-64</code>, <code>linux-gcc-32</code>:
+    Linux system using the gcc compiler, targeting x86_64 or x86.
   </li>
-  <li><code>linux-clang</code>: Linux platform using clang compiler.
+  <li><code>linux-clang</code>, <code>linux-clang-64</code>, <code>linux-clang-32</code>:
+    Linux system using the clang compiler, targeting x86_64 or x86.
   </li>
-  <li><code>win</code>, <code>win-gcc</code>: Windows platform using gcc compiler (TDM-GCC is
-    tested thoroughly, although MinGW-w64 works too). The shell can be either
-    Posix or CMD.
+  <li><code>win</code>, <code>win-vs</code>, <code>win-vs-64</code>, <code>win-vs-32</code>:
+    Windows system using the Visual C++ 2019 compiler or newer, with
+    x86_64 or x86 architectures. The CMD shell is thoroughly tested,
+    but Posix shell should probably work too.<br>
+    The automatic dependency tracking utilizes the <code>/showIncludes</code> option
+    of the <code>cl</code> compiler, and the build process uses
+    <code>cl_deps</code> binary to parse its output to a Makefile-compatible format.
+    The <code>.build/cl_deps.cpp</code> is created by the <code>Makefile.builtem</code>
+    and compiled automatically into <code>.build/cl_deps.exe</code> binary.
+    Because the <code>/showIncludes</code> generates localized messages, the
+    <code>cl_deps</code> binary switches the compiler messages to English.
   </li>
-  <li><code>win-vs</code>: Windows platform using Visual C++ 2013 compiler or newer.
-    The CMD shell is thoroughly tested, but Posix shell should probably work too.
-  <p></p>
-    The automatic dependency tracking uses the <code>/showIncludes</code> option and
-    uses <code>cl_deps</code> binary to parse its output to Makefile format. The
-    <code>.build/cl_deps.cpp</code> is created by the <code>Makefile.builtem</code> and compiled
-    automatically into <code>.build/cl_deps.exe</code> binary. Note that if 64-bit
-    compiler is used, the <code>cl_deps</code> is also 64-bit, which might break the
-    build if it is performed on 32-bit system. In that case, first build the
-    <code>.build/cl_deps.exe</code> using 32-bit compiler.
-  <p></p>
-    Note that for this platform bitness must be always specified
+  <li><code>win-gcc</code>: Windows system using the gcc compiler (TDM-GCC is
+    tested thoroughly, although MinGW-w64 works too), targeting x86_64 or x86.
+    The shell can be either Posix or CMD.
   </li>
-  <li><code>osx</code>, <code>osx-clang</code>: OS X platform using clang compiler.
+  <li><code>macos</code>, <code>macos-clang</code>, <code>macos-clang-64</code>, <code>macos-clang-amd64</code>:
+    macOS system using the clang compiler, targeting x86_64 or arm64.
   </li>
   </ul>
-  If the platform is not specified, one of <code>linux</code>, <code>win</code> and <code>osx</code> is detected
-  automatically.
-<p></p>
+  If the platform is not specified, one of <code>linux</code>, <code>win</code>, and <code>macos</code>
+  is detected automatically.
 </li>
-<li><code>CXX</code>:<br>
-  The C++11 compiler to use. If not defined, it is set according to
-  <code>PLATFORM</code> to either <code>g++</code>, <code>clang++</code> or <code>cl</code>.
-<p></p>
-</li>
+</ul>
+
+<ul>
 <li><code>PLATFORM_SHELL</code>:<br>
   The shell to use. Supported shells are:
   <ul>
@@ -200,6 +201,15 @@ on the <code>make</code> command line) are the following:
   If not specified, it is detected automatically.
 <p></p>
 </li>
+<li><code>CXX</code>:<br>
+  The C++11/14/17 compiler to use. If not defined, it is set according to
+  <code>PLATFORM</code> to either <code>g++</code>, <code>clang++</code> or <code>cl</code>.
+<p></p>
+</li>
+<li><code>CPP_STANDARD</code>:<br>
+  The C++ standard to use, either <code>c++11</code>, <code>c++14</code>, or <code>c++17</code>.
+<p></p>
+</li>
 <li><code>MODE</code>:<br>
   Compilation mode to use. Available compilation modes are:
   <ul>
@@ -209,7 +219,7 @@ on the <code>make</code> command line) are the following:
   </li>
   <li><code>release</code>: Release build. Link time optimizations are used, assertions
     are not evaluated, the targets are stripped and static version of C++
-    runtime is used (except for OS X).
+    runtime is used (except for macOS).
   </li>
   <li><code>debug</code>: Debug build. Debug information is produced and no optimizations
     are performed.
@@ -220,24 +230,6 @@ on the <code>make</code> command line) are the following:
   </li>
   </ul>
   The compilation mode defaults to <code>normal</code> if not specified.
-<p></p>
-</li>
-<li><code>BITS</code>:<br>
-  The bitness of the build. Can be either unspecified (then the default of the
-  compiler is used) or one of:
-  <ul>
-  <li><code>32</code>: Use 32-bit architecture.
-  </li>
-  <li><code>64</code>: Use 64-bit architecture.
-  </li>
-  <li><code>arm64</code>: Use ARM 64-bit architecture (usable on OS X only).
-  </li>
-  </ul>
-  Note that when using Visual C++, bitness must always be specified. That is caused by
-  the fact that when specifying link subsystem, it is either 5.01 for 32-bit or
-  5.02 for 64-bit architecture. According to documentation 5 should also work
-  (and would probably automatically append valid minor version), but the linker does
-  not accept it.
 </li>
 </ul>
 
@@ -262,7 +254,7 @@ The compilation option can be specified using the following variables:
   linker flags are interpreted in the respective platforms.
 </li>
 <li><code>DYN_LD_FLAGS</code>: Linker flags appended for dynamic libraries linking (i.e.
-  <code>-shared</code> on Linux and <code>-dynamiclib</code> on OS X).
+  <code>-shared</code> on Linux and <code>-dynamiclib</code> on macOS).
 </li>
 </ul>
 
@@ -349,7 +341,7 @@ Because object files, executables and libraries have different names on differen
 platforms, you should use the following methods:
 </p>
 <ul style="margin-top:0">
-<li><code>$(call obj,source_file_without_extension)</code>: Create name of object file for specified C++ 11 source
+<li><code>$(call obj,source_file_without_extension)</code>: Create name of object file for specified C++ source
   suitable for linking an executable. A mangling scheme is used, so that the
   object file is always in <code>.build</code> directory and the following information
   is encoded in the object name: input subdirectory, platform, compile mode and
@@ -357,7 +349,7 @@ platforms, you should use the following methods:
   you must use second expansion (i.e. <code>$$(call obj,%)</code>) so that the <code>%</code> is
   replaced by the real path before calling <code>obj</code>.
 </li>
-<li><code>$(call dynobj,source_file_without_extension)</code>: Create name of object file for specified C++ 11 source
+<li><code>$(call dynobj,source_file_without_extension)</code>: Create name of object file for specified C++ source
   suitable for linking a dynamic library. As with <code>obj</code>, the mangling scheme is also used.
 </li>
 <li><code>$(call exe,executable_without_extension)</code>: Create executable name of the given extensionless name.

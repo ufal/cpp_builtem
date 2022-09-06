@@ -1,7 +1,7 @@
 # C++ Builtem
 [![Build Status](https://github.com/ufal/cpp_builtem/actions/workflows/compile_test.yml/badge.svg)](https://github.com/ufal/cpp_builtem/actions/workflows/compile_test.yml)
 
-C++ Builtem is a cross-platform Makefile-based build system for C++11
+C++ Builtem is a cross-platform Makefile-based build system for C++11/14/17
 released under [MPL 2.0 license](http://www.mozilla.org/MPL/2.0/).
 It is versioned using [Semantic Versioning](http://semver.org/).
 
@@ -15,9 +15,8 @@ Features:
 - automatic dependency generation
 
 Supported platforms and compilers:
-- gcc on Linux
-- clang on OS X and Linux
-- tdm-gcc on Windows (either cmd.exe or sh shell)
+- gcc on Linux and Windows
+- clang on macOS and Linux
 - Visual C++ on Windows (either cmd.exe or sh shell)
 
 The C++-Builtem also contains several (cross)compilers for Linux.
@@ -26,7 +25,7 @@ install it and also a shell script that runs make using it.
 - gcc 4.9.2 compiled against libc from Debian Lenny using crosstool-ng
 - tdm-gcc 9.2.0
 - Visual C++ 2019
-- remote clang execution on OS X using SSH
+- remote clang execution on macOS using SSH
 
 Copyright 2022 by Institute of Formal and Applied Linguistics, Faculty of
 Mathematics and Physics, Charles University in Prague, Czech Republic.
