@@ -41,7 +41,7 @@ ifneq ($(filter linux-gcc linux-clang,$(PLATFORM)),)
   else ifneq ($(filter i386 i686,$(PLATFORM_ARCH)),)
     override PLATFORM:=$(PLATFORM)-32
   else
-    $(error Architecture $(PLATFORM_ARCH) is currently unsupported on platform $(PLATFORM))
+    $(error Architecture $(PLATFORM_ARCH) is currently not supported on platform $(PLATFORM))
   endif
 else ifneq ($(filter win-vs win-gcc,$(PLATFORM)),)
   ifneq ($(filter AMD64,$(PROCESSOR_ARCHITECTURE))$(filter AMD64,$(PROCESSOR_ARCHITEW6432)),)
@@ -49,7 +49,7 @@ else ifneq ($(filter win-vs win-gcc,$(PLATFORM)),)
   else ifeq ($(filter x86,$(PROCESSOR_ARCHITECTURE))$(PROCESSOR_ARCHITEW6432),x86-)
     override PLATFORM:=$(PLATFORM)-32
   else
-    $(error Architecture $(PROCESSOR_ARCHITECTURE) is currently unsupported on platform $(PLATFORM))
+    $(error Architecture $(PROCESSOR_ARCHITECTURE) is currently not supported on platform $(PLATFORM))
   endif
 else ifneq ($(filter macos-clang,$(PLATFORM)),)
   PLATFORM_ARCH:=$(shell uname -m)
@@ -58,7 +58,7 @@ else ifneq ($(filter macos-clang,$(PLATFORM)),)
   else ifneq ($(filter arm64,$(PLATFORM_ARCH)),)
     override PLATFORM:=$(PLATFORM)-arm64
   else
-    $(error Architecture $(PLATFORM_ARCH) is currently unsupported on platform $(PLATFORM))
+    $(error Architecture $(PLATFORM_ARCH) is currently not supported on platform $(PLATFORM))
   endif
 endif
 
