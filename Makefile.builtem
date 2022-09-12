@@ -195,10 +195,10 @@ ifneq ($(filter linux-gcc-% linux-clang-% win-gcc-%,$(PLATFORM)),)
   DYN_C_FLAGS += $(if $(filter linux-%,$(PLATFORM)),-fPIC)
   DYN_LD_FLAGS += -shared
 
-  ifneq ($(filter %-32,$(PLATFORM)),)
-    C_FLAGS += -m32
-  else ifneq ($(filter %-64,$(PLATFORM)),)
+  ifneq ($(filter %-64,$(PLATFORM)),)
     C_FLAGS += -m64
+  else ifneq ($(filter %-32,$(PLATFORM)),)
+    C_FLAGS += -m32
   endif
 
   ifeq ($(MODE),normal)
@@ -217,7 +217,7 @@ else ifneq ($(filter win-vs-%,$(PLATFORM)),)
     CXX = cl
   endif
   C_FLAGS += /nologo $(if $(filter c++11,$(CPP_STANDARD)),,/std:$(CPP_STANDARD)) /W 2 /D WIN32 /D UNICODE /D _UNICODE /D _WIN32_WINNT=0x0601 /EHsc /utf-8
-  LD_FLAGS += /MANIFEST:EMBED /MACHINE:$(if $(filter %-32,$(PLATFORM)),X86,X64)
+  LD_FLAGS += /MANIFEST:EMBED /MACHINE:$(if $(filter %-64,$(PLATFORM)),X64,X86)
 
   ifeq ($(MODE),normal)
     C_FLAGS += /O2 /MT
