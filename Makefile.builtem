@@ -46,7 +46,7 @@ ifneq ($(filter linux-gcc linux-clang,$(PLATFORM)),)
 else ifneq ($(filter win-vs win-gcc,$(PLATFORM)),)
   ifneq ($(filter AMD64,$(PROCESSOR_ARCHITECTURE))$(filter AMD64,$(PROCESSOR_ARCHITEW6432)),)
     override PLATFORM:=$(PLATFORM)-64
-  else ifeq ($(filter x86,$(PROCESSOR_ARCHITECTURE))$(PROCESSOR_ARCHITEW6432),x86-)
+  else ifeq ($(filter x86,$(PROCESSOR_ARCHITECTURE))$(PROCESSOR_ARCHITEW6432),x86)
     override PLATFORM:=$(PLATFORM)-32
   else
     $(error Architecture $(PROCESSOR_ARCHITECTURE) is currently not supported on platform $(PLATFORM))
