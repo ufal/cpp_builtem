@@ -238,13 +238,6 @@ else ifneq ($(filter macos-clang-%,$(PLATFORM)),)
   C_FLAGS += -std=$(CPP_STANDARD) -W -Wall -mtune=generic -fvisibility=hidden -stdlib=libc++
   DYN_LD_FLAGS += -dynamiclib
 
-
-  ifneq ($(filter %-32,$(PLATFORM)),)
-    C_FLAGS += -m32
-  else ifneq ($(filter %-64,$(PLATFORM)),)
-    C_FLAGS += -m64
-  endif
-
   ifneq ($(filter %-64,$(PLATFORM)),)
     C_FLAGS += -target x86_64-apple-macos$(if $(filter c++11 c++14,$(CPP_STANDARD)),10.9,10.14)
   else ifneq ($(filter %-arm64,$(PLATFORM)),)
