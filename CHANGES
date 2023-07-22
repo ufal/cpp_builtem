@@ -1,5 +1,7 @@
 Version 2.0.1-dev
 -----------------
+- For C++17 on macos-64, require at least 10.15 instead of 10.14,
+  because std::filesystem is available only since 10.15.
 
 
 Version 2.0.0 [13 Sep 2022]
