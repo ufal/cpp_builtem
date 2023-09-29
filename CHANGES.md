@@ -1,3 +1,7 @@
+Version 2.1.1-dev
+-----------------
+
+
 Version 2.1.0 [29 Sep 2023]
 ---------------------------
 - Add `default_warnings` and `disable_all_warnings`.
