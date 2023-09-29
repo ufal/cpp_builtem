@@ -132,6 +132,13 @@ Because compilers have different option syntax, the following methods are also p
 - `$(call treat_warnings_as_errors)`: Return compiler option which treats
   warnings as errors.
 
+- `$(call default_warnings)`: Return compiler option(s) used to set the default
+  warning level; can be used to switch these warnings off.
+
+- `$(call disable_all_warnings)`: Return compiler option that disables all
+  warnings.
+
+
 Compilation options can be specified either globally or only for some targets
 (using target-specific variable assignments). Note that in `Makefile.builtem`
 these variables are always appended to, so the initial values from environment

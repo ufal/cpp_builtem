@@ -1,5 +1,6 @@
 Version 2.0.2-dev
 -----------------
+- Add `default_warnings` and `disable_all_warnings`.
 - Stop using `t2t_docsys`. The manual is now directly in Markdown.
 - Store the changes in `CHANGES.md` using Markdown formatting.
 
