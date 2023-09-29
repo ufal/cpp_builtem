@@ -24,7 +24,7 @@ For every (cross)compiler, there are instructions (or scripts) how to
 install it and also a shell script that runs make using it.
 - gcc 4.9.2 compiled against libc from Debian Lenny using crosstool-ng
 - tdm-gcc 9.2.0
-- Visual C++ 2019
+- Visual C++ 2019, 2022
 - remote clang execution on macOS using SSH
 
 Copyright 2014-2023 by Institute of Formal and Applied Linguistics, Faculty
