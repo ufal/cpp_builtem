@@ -1,5 +1,6 @@
 Version 2.2.1-dev
 -----------------
+- On macOS, use `libtool -static` to create static libraries.
 
 
 Version 2.2.0 [17 Oct 2023]

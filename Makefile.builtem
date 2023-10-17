@@ -297,7 +297,7 @@ else
     @$(call builtem_link_deps,$(1))
     @$(call builtem_link_objs,$(1),$(2))
     @$(call rm,$(1))
-    ar -rcs $(1) @$(call builtem_link_objs,$(1))
+    $(if $(filter macos-%,$(PLATFORM)),libtool -static -o,ar -rcs) $(1) @$(call builtem_link_objs,$(1))
   endef
 endif
 
