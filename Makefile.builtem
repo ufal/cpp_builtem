@@ -298,6 +298,7 @@ ifneq ($(filter win-vs-%,$(PLATFORM)),)
   define_macro = /D $(1)$(if $(2),=$(2))
   disable_assert = /D NDEBUG
   treat_warnings_as_errors = /WX
+  treat_warnings_as_no_errors = /WX:NO
   default_warnings = /W2
   disable_all_warnings = /w
 else
@@ -306,6 +307,7 @@ else
   define_macro = -D$(1)$(if $(2),=$(2))
   disable_assert = -DNDEBUG
   treat_warnings_as_errors = -Werror
+  treat_warnings_as_no_errors = -Wno-error
   default_warnings = -W -Wall
   disable_all_warnings = -w
 endif

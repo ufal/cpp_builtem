@@ -132,6 +132,9 @@ Because compilers have different option syntax, the following methods are also p
 - `$(call treat_warnings_as_errors)`: Return compiler option which treats
   warnings as errors.
 
+` $(call treat_warnings_as_no_errors)`: Return compiler option which stops
+  treating warnings as errors.
+
 - `$(call default_warnings)`: Return compiler option(s) used to set the default
   warning level; can be used to switch these warnings off.
 
