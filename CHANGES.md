@@ -1,3 +1,7 @@
+Version 2.2.1-dev
+-----------------
+
+
 Version 2.2.0 [17 Oct 2023]
 ---------------------------
 - Add `treat_warnings_as_no_errors` option.
