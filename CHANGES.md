@@ -1,6 +1,9 @@
 Version 2.1.1-dev
 -----------------
 - Add `treat_warnings_as_no_errors` option.
+- Allow linking projects with large number of object files by
+  generating the list of required objects to a file and passing
+  `@file` to the compiler.
 
 
 Version 2.1.0 [29 Sep 2023]
