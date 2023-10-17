@@ -212,7 +212,7 @@ ifneq ($(filter linux-gcc-% linux-clang-% win-gcc-%,$(PLATFORM)),)
     C_FLAGS += -O3 $(if $(findstring -gcc-,$(PLATFORM)),-g1 -pg,-gline-tables-only)
     LD_FLAGS += $(if $(findstring -gcc-,$(PLATFORM)),-pg)
   else ifeq ($(MODE),release)
-    C_FLAGS += -O3 -flto
+    C_FLAGS += -O3 -flto$(if $(findstring -gcc-,$(PLATFORM)),=jobserver)
     LD_FLAGS += -s -static-libgcc -static-libstdc++
   endif
 else ifneq ($(filter win-vs-%,$(PLATFORM)),)
@@ -286,12 +286,12 @@ else
   define link_exe
     @$(call builtem_link_deps,$(1))
     @$(call builtem_link_objs,$(1),$(2))
-    $(CXX) -o $(1) $(C_FLAGS) @$(call builtem_link_objs,$(1)) $(LD_FLAGS) $(3)
+    $(if $(findstring -flto=jobserver,$(C_FLAGS)),+)$(CXX) -o $(1) $(C_FLAGS) @$(call builtem_link_objs,$(1)) $(LD_FLAGS) $(3)
   endef
   define link_dynlib
     @$(call builtem_link_deps,$(1))
     @$(call builtem_link_objs,$(1),$(2))
-    $(CXX) -o $(1) $(C_FLAGS) $(DYN_C_FLAGS) @$(call builtem_link_objs,$(1)) $(LD_FLAGS) $(DYN_LD_FLAGS) $(3)
+    $(if $(findstring -flto=jobserver,$(C_FLAGS)),+)$(CXX) -o $(1) $(C_FLAGS) $(DYN_C_FLAGS) @$(call builtem_link_objs,$(1)) $(LD_FLAGS) $(DYN_LD_FLAGS) $(3)
   endef
   define link_lib
     @$(call builtem_link_deps,$(1))

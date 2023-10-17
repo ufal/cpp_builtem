@@ -4,6 +4,7 @@ Version 2.1.1-dev
 - Allow linking projects with large number of object files by
   generating the list of required objects to a file and passing
   `@file` to the compiler.
+- Use jobserver integration of GCC when using LTO in release mode.
 
 
 Version 2.1.0 [29 Sep 2023]
