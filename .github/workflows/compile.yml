@@ -28,6 +28,14 @@ jobs:
             platform: linux-clang CXX=clang++-14
           - os: ubuntu-22.04
             platform: linux-clang CXX=clang++-15
+          - os: ubuntu-22.04-arm
+            platform: linux-gcc CXX=g++-9
+          - os: ubuntu-22.04-arm
+            platform: linux-gcc CXX=g++-10
+          - os: ubuntu-22.04-arm
+            platform: linux-gcc CXX=g++-11
+          - os: ubuntu-22.04-arm
+            platform: linux-gcc CXX=g++-12
           - os: windows-2022
             platform: win-vs-32
           - os: windows-2022

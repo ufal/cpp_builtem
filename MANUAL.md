@@ -40,8 +40,8 @@ on the `make` command line) are the following:
   if the `architecture` is missing, the system architecture is used.
 
   The available platforms are:
-  - `linux`, `linux-gcc`, `linux-gcc-64`, `linux-gcc-32`:
-    Linux system using the gcc compiler, targeting x86_64 or x86.
+  - `linux`, `linux-gcc`, `linux-gcc-64`, `linux-gcc-32`, `linux-gcc-aarch64`:
+    Linux system using the gcc compiler, targeting x86_64, x86 or aarch64.
   - `linux-clang`, `linux-clang-64`, `linux-clang-32`:
     Linux system using the clang compiler, targeting x86_64 or x86.
   - `win`, `win-vs`, `win-vs-64`, `win-vs-32`:

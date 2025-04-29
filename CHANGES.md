@@ -1,6 +1,6 @@
 Version 2.2.2-dev
 -----------------
-
+- Add support for `linux-gcc-aarch64`.
 
 Version 2.2.1 [17 Oct 2023]
 ---------------------------
