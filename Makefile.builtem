@@ -79,7 +79,7 @@ endif
 
 # fail for unknown standards
 ifeq ($(filter c++11 c++14 c++17,$(CPP_STANDARD)),)
-  $(error Unsupported C++ standard $(CPP_STANDARD), only [c++11], c++17, c++17 are supported)
+  $(error Unsupported C++ standard $(CPP_STANDARD), only [c++11], c++14, c++17 are supported)
 endif
 
 ####################
