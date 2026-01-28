@@ -1,6 +1,6 @@
 @rem This file is part of C++-Builtem <http://github.com/ufal/cpp_builtem/>.
 @rem
-@rem Copyright 2014-2023 Institute of Formal and Applied Linguistics, Faculty
+@rem Copyright 2014-2026 Institute of Formal and Applied Linguistics, Faculty
 @rem of Mathematics and Physics, Charles University in Prague, Czech Republic.
 @rem
 @rem This Source Code Form is subject to the terms of the Mozilla Public

@@ -27,7 +27,7 @@ install it and also a shell script that runs make using it.
 - Visual C++ 2019, 2022
 - remote clang execution on macOS using SSH
 
-Copyright 2014-2023 by Institute of Formal and Applied Linguistics, Faculty
+Copyright 2014-2026 by Institute of Formal and Applied Linguistics, Faculty
 of Mathematics and Physics, Charles University in Prague, Czech Republic.
 
 C++ Builtem repository http://github.com/ufal/cpp_builtem is hosted on GitHub.
