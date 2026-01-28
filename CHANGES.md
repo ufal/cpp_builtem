@@ -1,5 +1,5 @@
-Version 2.2.3-dev
------------------
+Version 2.2.3 [28 Jan 2026]
+---------------------------
 - Fix a bug where linking failed for targets in subdirectories
   because of a forgotten mangling of the name of file containing
   the objects being linked.
