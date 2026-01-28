@@ -1,3 +1,7 @@
+Version 2.2.3-dev
+-----------------
+
+
 Version 2.2.2 [28 Jan 2026]
 ---------------------------
 - Add initial support for C++20.
