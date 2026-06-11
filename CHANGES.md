@@ -1,5 +1,5 @@
-Version 2.2.4-dev
------------------
+Version 2.2.4 [11 Jun 2026]
+---------------------------
 - When no data is used in `$(call echo,>file)` command, restore the
   behavior of creating an empty file (not a file with one newline)
   during the shell execution phase (not command expansion phase).

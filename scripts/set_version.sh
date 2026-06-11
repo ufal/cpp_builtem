@@ -5,5 +5,5 @@ version="$1"
 
 BASE="$(dirname "$(dirname "$(readlink -f "$0")")")"
 
-sed 's/^# C++ Builtem [^ ]*$/# C++ Builtem '"$version"'/' -i $BASE/README.md
+sed 's/^# C++ Builtem [^ ]*$/# C++ Builtem '"$version"'/' -i $BASE/MANUAL.md
 sed 's/^BUILTEM_VERSION := [^ ]*$/BUILTEM_VERSION := '"$version"'/' -i $BASE/Makefile.builtem
