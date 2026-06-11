@@ -1,3 +1,7 @@
+Version 2.2.5-dev
+-----------------
+
+
 Version 2.2.4 [11 Jun 2026]
 ---------------------------
 - When no data is used in `$(call echo,>file)` command, restore the
