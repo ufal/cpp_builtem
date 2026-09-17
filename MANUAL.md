@@ -1,4 +1,4 @@
-# C++ Builtem 2.2.5-dev
+# C++ Builtem 2.2.5
 
 ## `Makefile.builtem` API Reference
 

@@ -1,5 +1,5 @@
-Version 2.2.5-dev
------------------
+Version 2.2.5 [17 Sep 2026]
+---------------------------
 - Increase WINNT version to 10 and make it configurable.
 
 
