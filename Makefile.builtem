@@ -198,7 +198,7 @@ ifneq ($(filter linux-gcc-% linux-clang-% win-gcc-%,$(PLATFORM)),)
   ifneq ($(filter undefined default,$(origin CXX)),)
     CXX = $(if $(findstring -gcc-,$(PLATFORM)),g++,clang++)
   endif
-  C_FLAGS += -std=$(CPP_STANDARD) -W -Wall -mtune=generic -msse -msse2 -mfpmath=sse -fvisibility=hidden
+  C_FLAGS += -std=$(CPP_STANDARD) -W -Wall -mtune=generic -fvisibility=hidden$(if $(filter %-32,$(PLATFORM)), -msse2 -mfpmath=sse)
   C_FLAGS += $(if $(filter win-%,$(PLATFORM)),-DWIN32 -DUNICODE -D_UNICODE -D_WIN32_WINNT=$(WINNT_VERSION))
   DYN_C_FLAGS += $(if $(filter linux-%,$(PLATFORM)),-fPIC)
   DYN_LD_FLAGS += -shared
