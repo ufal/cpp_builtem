@@ -148,6 +148,11 @@ endif
 # PLATFORM SETTINGS #
 #####################
 
+# the minimal Windows version defaulting to Windows 10
+ifndef WINNT_VERSION
+  WINNT_VERSION=0x0A00
+endif
+
 # executable and library namings
 builtem_mangle = $(subst /,-,$(subst /_,-__,$(subst /-,-_-,$(subst //,-_-_,$(subst -,--,$(1))))))
 builtem_demangle = $(subst /_,/,$(subst //,-,$(subst -,/,$(1))))
@@ -194,7 +199,7 @@ ifneq ($(filter linux-gcc-% linux-clang-% win-gcc-%,$(PLATFORM)),)
     CXX = $(if $(findstring -gcc-,$(PLATFORM)),g++,clang++)
   endif
   C_FLAGS += -std=$(CPP_STANDARD) -W -Wall -mtune=generic -msse -msse2 -mfpmath=sse -fvisibility=hidden
-  C_FLAGS += $(if $(filter win-%,$(PLATFORM)),-DWIN32 -DUNICODE -D_UNICODE -D_WIN32_WINNT=0x0601)
+  C_FLAGS += $(if $(filter win-%,$(PLATFORM)),-DWIN32 -DUNICODE -D_UNICODE -D_WIN32_WINNT=$(WINNT_VERSION))
   DYN_C_FLAGS += $(if $(filter linux-%,$(PLATFORM)),-fPIC)
   DYN_LD_FLAGS += -shared
 
@@ -357,7 +362,7 @@ ifneq ($(filter win-vs-%,$(PLATFORM)),)
 COMPILE_DEPS += .build/cl_deps.exe
 .build/cl_deps.exe: .build/cl_deps.cpp
 	@$(info Compiling cl_deps.exe)
-	@$(CXX) /Fe$@ /Fo$@.obj /nologo /W2 /O1 /D WIN32 /D UNICODE /D _UNICODE /D _WIN32_WINNT=0x0601 /EHsc /utf-8 /MT $< /link /MANIFEST:EMBED /SUBSYSTEM:console,6
+	@$(CXX) /Fe$@ /Fo$@.obj /nologo /W2 /O1 /D WIN32 /D UNICODE /D _UNICODE /D _WIN32_WINNT=$(WINNT_VERSION) /EHsc /utf-8 /MT $< /link /MANIFEST:EMBED /SUBSYSTEM:console,6
 .build/cl_deps.cpp: | .build
 	@$(info Generating cl_deps.cpp)
 	@$(call echo,>$@,#include <ctype.h>)
