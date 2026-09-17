@@ -40,11 +40,11 @@ jobs:
             platform: macos-clang-64
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - if: startsWith(matrix.os, 'windows')
         name: Windows - Set up MSVC
-        uses: ilammy/msvc-dev-cmd@v1
+        uses: TheMrMilchmann/setup-msvc-dev@v4
         with:
           arch: ${{ endswith(matrix.platform, '-32') && 'x86' || 'x64' }}
 
