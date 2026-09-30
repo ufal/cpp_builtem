@@ -17,7 +17,7 @@ Features:
 Supported platforms and compilers:
 - Linux (x86_64, aarch64, x86): GCC and Clang
 - macOS (arm64, x86_64): Clang
-- Windows (x86_64, x86): Visual C++
+- Windows (x86_64, arm64, x86): Visual C++ and GCC
 
 The C++-Builtem also contains several (cross)compilers for Linux.
 For every (cross)compiler, there are instructions (or scripts) how to

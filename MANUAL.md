@@ -55,9 +55,9 @@ on the `make` command line) are the following:
     by the `Makefile.builtem` and compiled automatically into
     `.build/cl_deps.exe` binary. Because the `/showIncludes` generates localized
     messages, the `cl_deps` binary switches the compiler messages to English.
-  - `win-gcc` [obsolete]: Windows system using the GCC compiler (TDM-GCC is tested
-    thoroughly, although MinGW-w64 works too), targeting x64 or x86. The
-    shell can be either Posix or CMD.
+  - `win-gcc`: Windows system using the GCC compiler (TDM-GCC is tested,
+    although MinGW-w64 works too), targeting x86_64, arm64 (completely untested),
+    or x86. The shell can be either Posix or CMD.
   - `macos`, `macos-clang`, `macos-clang-arm64`, `macos-clang-64`: macOS system
     using the Clang compiler, targeting arm64 or x64.
 
