@@ -59,7 +59,7 @@ on the `make` command line) are the following:
     although MinGW-w64 works too), targeting x86_64, arm64 (completely untested),
     or x86. The shell can be either Posix or CMD.
   - `macos`, `macos-clang`, `macos-clang-arm64`, `macos-clang-64`: macOS system
-    using the Clang compiler, targeting arm64 or x64.
+    using the Clang compiler, targeting arm64 or x86_64.
 
   If the platform is not specified, one of `linux`, `win`, and `macos`
   is detected automatically.
@@ -74,7 +74,7 @@ on the `make` command line) are the following:
 
 - `CXX`:
 
-  The C++11/14/17/29 compiler to use. If not defined, it is set according to
+  The C++11/14/17/20 compiler to use. If not defined, it is set according to
   `PLATFORM` to either `g++`, `clang++` or `cl`.
 
 - `CPP_STANDARD`:
