@@ -12,13 +12,17 @@ include ../../Makefile.builtem
 
 TARGETS = compile_test_11
 
-.PHONY: all compile
+.PHONY: all compile run
 all: compile
 compile: $(call exe,$(TARGETS))
+run: $(patsubst %,run-%,$(TARGETS))
 
 C_FLAGS += $(treat_warnings_as_errors)
 $(call exe,$(TARGETS)): $(call exe,%): $$(call obj,%)
 	$(call link_exe,$@,$^,$(call win_subsystem,console))
+
+run-%:$(call exe,%)
+	./$<
 
 .PHONY: clean
 clean:

@@ -12,13 +12,12 @@
 #include <unordered_map>
 
 int main(void) {
-  std::string line;
   std::unordered_map<std::string, int> m;
 
-  while (std::getline(std::cin, line)) {
-    m[line]++;
-    std::cout << line << " " << m[line] << std::endl;
-  }
+  for (int i = 0; i < 1000; i++)
+    m.emplace("key-" + std::to_string(i), i);
+
+  std::cout << m.count("key-42") << ' ' << m["key-42"] << std::endl;
 
   return 0;
 }

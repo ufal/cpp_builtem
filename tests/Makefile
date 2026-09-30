@@ -10,7 +10,7 @@
 .PHONY: all
 all: compile
 
-TARGETS := compile clean
+TARGETS := compile run clean
 SUBDIRS := cpp-11
 
 SUBDIR_TARGETS := $(foreach t,$(TARGETS),$(addsuffix /$(t),$(SUBDIRS)))
