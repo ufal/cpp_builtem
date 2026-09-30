@@ -7,15 +7,18 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-.PHONY: all
+include ../../Makefile.builtem
+
+TARGETS = compile_test_11
+
+.PHONY: all compile
 all: compile
+compile: $(call exe,$(TARGETS))
 
-TARGETS := compile clean
-SUBDIRS := cpp-11
+C_FLAGS += $(treat_warnings_as_errors)
+$(call exe,$(TARGETS)): $(call exe,%): $$(call obj,%)
+	$(call link_exe,$@,$^,$(call win_subsystem,console))
 
-SUBDIR_TARGETS := $(foreach t,$(TARGETS),$(addsuffix /$(t),$(SUBDIRS)))
-
-.PHONY: $(TARGETS) $(SUBDIR_TARGETS)
-$(TARGETS):%: $(addsuffix /%,$(SUBDIRS))
-$(SUBDIR_TARGETS):
-	$(MAKE) -C $(@D) $(@F)
+.PHONY: clean
+clean:
+	$(call rm,.build $(call all_exe,$(TARGETS)))

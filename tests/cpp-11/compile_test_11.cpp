@@ -11,15 +11,13 @@
 #include <string>
 #include <unordered_map>
 
-using namespace std;
-
 int main(void) {
-  string line;
-  unordered_map<string, int> m;
+  std::string line;
+  std::unordered_map<std::string, int> m;
 
-  while (getline(cin, line)) {
+  while (std::getline(std::cin, line)) {
     m[line]++;
-    cout << line << " " << m[line] << endl;
+    std::cout << line << " " << m[line] << std::endl;
   }
 
   return 0;
