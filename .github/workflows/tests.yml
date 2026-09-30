@@ -27,13 +27,10 @@ jobs:
             platform: linux-clang CXX=clang++-18
           - os: ubuntu-26.04
             platform: linux-clang CXX=clang++-20
-            make_args: treat_warnings_as_errors=
           - os: ubuntu-26.04
             platform: linux-clang CXX=clang++-21
-            make_args: treat_warnings_as_errors=
           - os: ubuntu-26.04
             platform: linux-clang CXX=clang++-22
-            make_args: treat_warnings_as_errors=
           - os: ubuntu-26.04
             platform: linux-gcc
             container: quay.io/pypa/manylinux_2_28_x86_64
