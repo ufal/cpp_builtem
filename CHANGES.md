@@ -1,3 +1,7 @@
+Version 2.3.1-dev
+-----------------
+
+
 Version 2.3.0 [30 Sep 2026]
 ---------------------------
 - Add initial support for `linux-{gcc,clang}-aarch64`.
