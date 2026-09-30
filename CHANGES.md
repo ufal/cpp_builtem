@@ -1,5 +1,6 @@
 Version 2.3.1-dev
 -----------------
+- Allow overriding `MACOS_TARGET_VERSION` to allow for slim C++20.
 
 
 Version 2.3.0 [30 Sep 2026]

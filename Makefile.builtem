@@ -165,6 +165,15 @@ ifndef WINNT_VERSION
   WINNT_VERSION=0x0A00
 endif
 
+# the macOS target version is set from CPP_STANDARD and PLATFORM when unset
+ifndef MACOS_TARGET_VERSION
+  ifneq ($(filter macos-%-64,$(PLATFORM)),)
+    MACOS_TARGET_VERSION:=$(if $(filter c++11 c++14,$(CPP_STANDARD)),10.9,$(if $(filter c++17,$(CPP_STANDARD)),10.15,14))
+  else ifneq ($(filter macos-%-arm64,$(PLATFORM)),)
+    MACOS_TARGET_VERSION:=$(if $(filter c++11 c++14 c++17,$(CPP_STANDARD)),11,14)
+  endif
+endif
+
 # executable and library namings
 builtem_mangle = $(subst /,-,$(subst /_,-__,$(subst /-,-_-,$(subst //,-_-_,$(subst -,--,$(1))))))
 builtem_demangle = $(subst /_,/,$(subst //,-,$(subst -,/,$(1))))
@@ -259,9 +268,9 @@ else ifneq ($(filter macos-clang-%,$(PLATFORM)),)
   DYN_LD_FLAGS += -dynamiclib
 
   ifneq ($(filter %-64,$(PLATFORM)),)
-    C_FLAGS += -target x86_64-apple-macos$(if $(filter c++11 c++14,$(CPP_STANDARD)),10.9,$(if $(filter c++17,$(CPP_STANDARD)),10.15,14))
+    C_FLAGS += -target x86_64-apple-macos$(MACOS_TARGET_VERSION)
   else ifneq ($(filter %-arm64,$(PLATFORM)),)
-    C_FLAGS += -target arm64-apple-macos$(if $(filter c++11 c++14 c++17,$(CPP_STANDARD)),11,14)
+    C_FLAGS += -target arm64-apple-macos$(MACOS_TARGET_VERSION)
   endif
 
   ifeq ($(MODE),normal)
