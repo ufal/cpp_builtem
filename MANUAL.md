@@ -7,7 +7,7 @@ Although it defines several targets, it does not define a default goal, so the
 first target in the user Makefile is still the default goal.
 
 Using several build controlling variables, `Makefile.builtem` defines implicit
-rules for compiling C++11/14/17 object files and provides three linking methods
+rules for compiling C++11/14/17/20 object files and provides three linking methods
 (executables, dynamic libraries, library archives). The dependencies of object
 files are tracked automatically.
 
@@ -40,10 +40,10 @@ on the `make` command line) are the following:
   if the `architecture` is missing, the system architecture is used.
 
   The available platforms are:
-  - `linux`, `linux-gcc`, `linux-gcc-64`, `linux-gcc-32`:
-    Linux system using the gcc compiler, targeting x86_64 or x86.
-  - `linux-clang`, `linux-clang-64`, `linux-clang-32`:
-    Linux system using the clang compiler, targeting x86_64 or x86.
+  - `linux`, `linux-gcc`, `linux-gcc-64`, `linux-gcc-aarch64`, `linux-gcc-32`:
+    Linux system using the GCC compiler, targeting x86_64, aarch64, or x86.
+  - `linux-clang`, `linux-clang-64`, `linux-clang-aarch64`, `linux-clang-32`:
+    Linux system using the Clang compiler, targeting x86_64, aarch64, or x86.
   - `win`, `win-vs`, `win-vs-64`, `win-vs-32`:
     Windows system using the Visual C++ 2019 compiler or newer, with x86_64 or
     x86 architectures. The CMD shell is thoroughly tested, but Posix shell
@@ -55,11 +55,11 @@ on the `make` command line) are the following:
     by the `Makefile.builtem` and compiled automatically into
     `.build/cl_deps.exe` binary. Because the `/showIncludes` generates localized
     messages, the `cl_deps` binary switches the compiler messages to English.
-  - `win-gcc`: Windows system using the gcc compiler (TDM-GCC is tested
-    thoroughly, although MinGW-w64 works too), targeting x86_64 or x86. The
+  - `win-gcc` [obsolete]: Windows system using the GCC compiler (TDM-GCC is tested
+    thoroughly, although MinGW-w64 works too), targeting x64 or x86. The
     shell can be either Posix or CMD.
-  - `macos`, `macos-clang`, `macos-clang-64`, `macos-clang-amd64`: macOS system
-    using the clang compiler, targeting x86_64 or arm64.
+  - `macos`, `macos-clang`, `macos-clang-arm64`, `macos-clang-64`: macOS system
+    using the Clang compiler, targeting arm64 or x64.
 
   If the platform is not specified, one of `linux`, `win`, and `macos`
   is detected automatically.
@@ -74,12 +74,12 @@ on the `make` command line) are the following:
 
 - `CXX`:
 
-  The C++11/14/17 compiler to use. If not defined, it is set according to
+  The C++11/14/17/29 compiler to use. If not defined, it is set according to
   `PLATFORM` to either `g++`, `clang++` or `cl`.
 
 - `CPP_STANDARD`:
 
-  The C++ standard to use, either `c++11`, `c++14`, or `c++17`.
+  The C++ standard to use, either `c++11`, `c++14`, `c++17`, or `c++20`.
 
 - `MODE`:
 
@@ -93,7 +93,7 @@ on the `make` command line) are the following:
   - `debug`: Debug build. Debug information is produced and no optimizations
     are performed.
   - `profile`: Profile build. It is a normal build with possibly limited
-    debug information. On gcc, profiling is enabled with `-pg`. Currently not
+    debug information. On GCC, profiling is enabled with `-pg`. Currently not
     supported on Visual C++.
   The compilation mode defaults to `normal` if not specified.
 
@@ -173,13 +173,12 @@ Several platform-specific flags can be used as linker flags of the `link_exe` or
 - `$(call version_script,version_script_file)`: Use given version script.
   Applies to linux only (`linux-gcc` and `linux-clang` platforms).
 
-- `$(call use_linker,linker_variant)`: Use given linker. Applies to gcc compiler
+- `$(call use_linker,linker_variant)`: Use given linker. Applies to GCC compiler
   only (`linux-gcc` platform and possibly also `windows-gcc`) with supported
   linkers `bfd` (the default one) and `gold`.
 
 - `$(call win_subsystem,subsystem,entrypoint)`: Use specified Windows subsystem
-  (usually either `console` or `windows`) with major required subsystem version
-  6 (i.e., Windows XP and older will not work). The `entrypoint` can be `main`
+  (usually either `console` or `windows`). The `entrypoint` can be `main`
   (the default) or `wmain` for a console application.
 
 ## Platform Target Names
