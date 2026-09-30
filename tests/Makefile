@@ -11,7 +11,7 @@
 all: compile
 
 TARGETS := compile run clean
-SUBDIRS := cpp-11
+SUBDIRS := cpp-11 cpp-17
 
 SUBDIR_TARGETS := $(foreach t,$(TARGETS),$(addsuffix /$(t),$(SUBDIRS)))
 
