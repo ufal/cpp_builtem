@@ -67,4 +67,7 @@ jobs:
         run: choco install --no-progress -y make
 
       - name: Compile
+        run: make PLATFORM=${{ matrix.platform }} -k -C tests compile
+
+      - name: Run
         run: make PLATFORM=${{ matrix.platform }} -k -C tests run
