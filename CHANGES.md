@@ -1,6 +1,7 @@
 Version 2.2.6-dev
 -----------------
 - Add initial support for `linux-{gcc,clang}-aarch64`.
+- Add initial support for `win-{vs,gcc}-arm64`.
 
 
 Version 2.2.5 [17 Sep 2026]
