@@ -55,10 +55,10 @@ else ifneq ($(filter win-vs win-gcc,$(PLATFORM)),)
   endif
 else ifneq ($(filter macos-clang,$(PLATFORM)),)
   PLATFORM_ARCH:=$(shell uname -m)
-  ifneq ($(filter x86_64,$(PLATFORM_ARCH)),)
-    override PLATFORM:=$(PLATFORM)-64
-  else ifneq ($(filter arm64,$(PLATFORM_ARCH)),)
+  ifneq ($(filter arm64,$(PLATFORM_ARCH)),)
     override PLATFORM:=$(PLATFORM)-arm64
+  else ifneq ($(filter x86_64,$(PLATFORM_ARCH)),)
+    override PLATFORM:=$(PLATFORM)-64
   else
     $(error Architecture $(PLATFORM_ARCH) is currently not supported on platform $(PLATFORM))
   endif
@@ -67,7 +67,7 @@ endif
 # fail for unknown platforms
 PLATFORMS = linux-gcc-64 linux-gcc-aarch64 linux-gcc-32 linux-clang-64 linux-clang-aarch64 linux-clang-32
 PLATFORMS += win-vs-64 win-vs-32 win-gcc-64 win-gcc-32
-PLATFORMS += macos-clang-64 macos-clang-arm64
+PLATFORMS += macos-clang-arm64 macos-clang-64
 ifeq ($(filter $(PLATFORMS),$(PLATFORM)),)
   $(error Unsupported platform $(PLATFORM), only $(PLATFORMS) are supported)
 endif
