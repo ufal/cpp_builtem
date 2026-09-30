@@ -34,6 +34,7 @@ jobs:
           - os: ubuntu-26.04
             platform: linux-gcc
             container: quay.io/pypa/manylinux_2_28_x86_64
+
           - os: windows-2022
             platform: win-vs-32
           - os: windows-2022
@@ -44,6 +45,7 @@ jobs:
             platform: win-vs-64
           - os: windows-2025-vs2026
             platform: win-vs-64
+
           - os: macos-15
             platform: macos-clang-arm64
           - os: macos-15-intel
