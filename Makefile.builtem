@@ -151,7 +151,7 @@ ifeq ($(firstword $(sort $(MAKE_VERSION) 4.0)),4.0)
   echo = $(if $(2),$(file $(1),$(2)),$(if $(filter sh,$(PLATFORM_SHELL)),$(1),type nul$(subst /,\,$(1))))
 endif
 
-# Report PLATFORM, PLATFORM_SHELL, MODE and BITNESS if requested
+# Report MODE, CPP_STANDARD, PLATFORM, and PLATFORM_SHELL if requested
 ifdef VERBOSE
   $(info Build $(MODE) with $(CPP_STANDARD) on platform $(PLATFORM) with shell $(PLATFORM_SHELL))
 endif
