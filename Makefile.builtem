@@ -113,6 +113,23 @@ ifeq ($(MODE),profile)
   endif
 endif
 
+###############
+# OUTPUT SYNC #
+###############
+ifndef OUTPUT_SYNC
+  OUTPUT_SYNC=target
+endif
+
+# fail for unknown output syncs
+ifeq ($(filter none line target recurse,$(OUTPUT_SYNC)),)
+  $(error Unsupported output sync $(OUTPUT_SYNC), only none, line, [target], recurse supported)
+endif
+
+# enable output sync when supported by make
+ifneq ($(and $(filter output-sync,$(.FEATURES)),$(filter-out none,$(OUTPUT_SYNC))),)
+  MAKEFLAGS += --output-sync=$(OUTPUT_SYNC)
+endif
+
 ##################
 # PLATFORM_SHELL #
 ##################

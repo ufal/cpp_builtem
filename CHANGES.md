@@ -1,5 +1,7 @@
 Version 2.3.2-dev
 -----------------
+- Add `OUTPUT_SYNC` flag for setting the parallel build output sync,
+  with the default being `target`.
 
 
 Version 2.3.1 [30 Sep 2026]
