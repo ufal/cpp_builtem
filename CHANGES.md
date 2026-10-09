@@ -1,5 +1,5 @@
-Version 2.3.3-dev
------------------
+Version 2.3.3 [09 Oct 2026]
+---------------------------
 - Avoid printing directories for `OUTPUT_SYNC=target/line` by default,
   introduce `target+dirs` and `line+dirs` to avoid this suppression.
 
