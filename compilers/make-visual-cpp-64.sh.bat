@@ -10,4 +10,4 @@
 @set PATH=%~dp0visual-cpp\vc\bin\x64;%~dp0visual-cpp\winsdk\bin\x64;%PATH%
 @set INCLUDE=%~dp0visual-cpp\vc\include;%~dp0visual-cpp\ucrt\include;%~dp0visual-cpp\winsdk\include
 @set LIB=%~dp0visual-cpp\vc\lib\x64;%~dp0visual-cpp\ucrt\lib\x64;%~dp0visual-cpp\winsdk\lib\x64
-@%~dp0mingw32-make\mingw32-make.exe %*
+@%~dp0win32-make\make.exe %*

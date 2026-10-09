@@ -8,4 +8,4 @@
 @rem file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 @set PATH=%~dp0tdm-gcc\bin;%PATH%
-@%~dp0mingw32-make\mingw32-make.exe %*
+@%~dp0win32-make\make.exe %*
