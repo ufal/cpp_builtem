@@ -1,3 +1,7 @@
+Version 2.3.4-dev
+-----------------
+
+
 Version 2.3.3 [09 Oct 2026]
 ---------------------------
 - Avoid printing directories for `OUTPUT_SYNC=target/line` by default,
